@@ -1,0 +1,33 @@
+{  
+  "type": "object",
+  "properties": {  
+    "classIdx": {
+      "type": "number",
+      "minLength":1    
+    },    
+    "beginTime": {
+      "type": "string",
+      "minLength":1    
+    },
+    "endTime":{
+      "type":"string",
+      "minLength":1
+    },
+    "weekday":{
+      "type":"string",
+      "enum":["월","화","수","목","금","토","일"]
+    },
+    "studentTotal":{
+      "type":"number",
+      "minLength":1
+    }
+  },
+  "example": {
+    "idx": "1",
+    "classIdx": "1",
+    "beginTime": "2020-2-25 21:30:20",
+    "endTime":"2020-2-15 23:30:20",
+    "weekday":"월",
+    "studentTotal":"20"  
+  }
+}

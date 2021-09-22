@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {  
+    "classIdx": {
+      "type": "number",
+      "minLength":1
+    },
+    "userIdx": {
+      "type": "number",
+      "minLength":1
+    },
+    "date": {
+      "type": "string",
+      "minLength":1
+    },
+    "contents": {
+      "type": "string",
+      "minLength":1
+    }
+  },
+  "example": {
+    "classIdx": "1",
+    "userIdx": "1",
+    "date": "2020-2-20 12:20:40",
+    "contents":"수업 최고!!"
+  }
+}

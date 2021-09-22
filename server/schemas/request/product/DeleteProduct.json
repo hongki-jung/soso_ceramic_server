@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {  
+    "product_idx":{
+      "type":"number",
+      "minLength":0
+    }
+  },
+  "example": {
+    "product_idx": "1"
+  }
+}

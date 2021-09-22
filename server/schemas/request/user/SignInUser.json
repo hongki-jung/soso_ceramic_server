@@ -1,0 +1,17 @@
+{
+    "type": "object",
+    "properties": {
+      "user_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "user_pwd": {
+        "type": "string",
+        "minLength": 1
+      },
+    "example": {
+      "user_id": "testId",
+      "user_pwd": "134312"
+        }
+    }
+  }
