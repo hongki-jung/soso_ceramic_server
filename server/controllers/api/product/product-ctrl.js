@@ -42,8 +42,6 @@ module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const product_info =req.options;
-    console.log('product_info ',product_info);
-    console.log('product_info.IDX',product_info.IDX);
     
     const result = await productModel.delete({product_info: product_info.product_idx}, connection)
     await db.commit(connection)
