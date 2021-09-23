@@ -11,23 +11,52 @@ var mime = require('mime-types')
 
 // const hangjeongdong = require('../../../components/json/hangjeongdong.json')
 
+
 module.exports.getImageUrl = async (req, res, next) => {
   try {
     console.log('getUserImageUrl : ', req.options)
-    const {mimetype, idType, id, extension, filename} = req.options
+    const {type ,mimetype, extension} = req.options
     console.log('mimetype : ',mimetype)
-    let path =`images/cloi.jpg`
-    let finalFile = `${filename}.${extension}`;
+    let path =``
+    switch(type){
+      case 'product':
+        path = `${type}/${uuid()}.${extension}`
+        break
+      case 'user_profile':
+        path = `${type}/${uuid()}.${extension}`
+        break
+      default:
+    }
     // let path = `test.png`
-    const url = s3.generatePreSignedUrl({
+    let url = s3.generatePreSignedUrl({
       key: path,
       mimetype: mimetype
     })
-    console.log('cloi.jpg')
+    // url+=`&x-amz-meta-Cache-Control=must-revalidate`
+    
+    // console.log('cloi.jpg')
     // path = type === 'chat' ? `${config.aws.s3.frontPath}/${path}` : path
-    res.status(200).json({url, path})
+    res.status(200).json({ url, path})
   }
   catch (err) {
     next(err)
   }
 }
+
+// module.exports.getUpdatePresignedUrl = async (req, res, next) => {
+//   try {
+//     console.log('getUserImageUrl : ', req.options)
+//     const {mimetype, path} = req.options
+//     // let path = `test.png`
+//     const url = s3.generatePreSignedUrl({
+//       key: path,
+//       mimetype: mimetype
+//     })
+//     // console.log('cloi.jpg')
+//     // path = type === 'chat' ? `${config.aws.s3.frontPath}/${path}` : path
+//     res.status(200).json({url})
+//   }
+//   catch (err) {
+//     next(err)
+//   }
+// }

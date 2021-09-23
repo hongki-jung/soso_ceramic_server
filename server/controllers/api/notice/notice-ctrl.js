@@ -1,18 +1,17 @@
 'use strict'
 
-const handler = require('./classTime-handler')
+const noticeModel = require('../../../models/notice')
 const db = require('../../../components/db')
-const crypto = require('../../../components/crypto')
 const util = require('../../../components/util')
 
-
+// 공지사항 추가
 module.exports.register = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try {
-    const cTime = req.options
-    console.log('cTime ',cTime);
+    const newNotice = req.options
+    console.log('newNotice ',newNotice);
     
-    const result = await handler.insert(cTime, connection)
+    const result = await noticeModel.insert(newNotice, connection)
     await db.commit(connection)
     res.status(200).json({result: result});
 
@@ -23,15 +22,16 @@ module.exports.register = async (req, res, next) => {
   }
 }
 
+// 공지사항 수정
 module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
-    const cTime = req.options
+    const notice_info = req.options
 
-    console.log('cTime', cTime);
+    console.log('notice_info', notice_info);
 
-    const result = await handler.update(cTime, connection)
-    if(result === 0) throw {status: 404, errorMessage: 'Not found lecture'}
+    const result = await noticeModel.update(notice_info, connection)
+    if(result === 0) throw {status: 404, errorMessage: 'Notice Not found '}
     
     await db.commit(connection)
     res.status(200).json({result:true})
@@ -42,15 +42,13 @@ module.exports.update = async (req, res, next) => {
   }
 }
 
-
+// 공지사항 삭제
 module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
-    const cTime =req.options;
-    console.log('cTime ',cTime);
-    console.log('cTime.IDX',cTime.IDX);
-    
-    const result = await handler.delete({IDX:cTime.IDX}, connection)
+    const notice_info = req.options;
+
+    const result = await noticeModel.delete({notice_idx: notice_info.notice_idx}, connection)
     await db.commit(connection)
     let returnValue = false;
     if(result.affectedRows === 1){
@@ -64,11 +62,12 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+// 공지사항 리스트 불러오기
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-    console.log('hihi')
-    const result = await handler.getList(params)
+
+    const result = await noticeModel.getList(params)
     res.status(200).json(result)
   }
   catch (err) {

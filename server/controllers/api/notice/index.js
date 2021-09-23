@@ -1,15 +1,15 @@
 'use strict'
 
 const ApiRouter = require('../../default').ApiRouter
-const ctrl = require('./product-ctrl')
+const ctrl = require('./notice-ctrl')
 
 
 module.exports.register = new ApiRouter({
   name: '',
   method: 'post',
-  summary: '상품등록',
-  schema: 'RegisterProduct',
-  tags: ['Product'],
+  summary: '공지사항 추가',
+  schema: 'PostNotice',
+  tags: ['Notice'],
   description: '',
   isPublic: true,
   responses: {
@@ -21,11 +21,11 @@ module.exports.register = new ApiRouter({
 })
 
 module.exports.update = new ApiRouter({
-  name: ':product_idx',
+  name: ':notice_idx',
   method: 'put',
-  summary: '상품 정보 수정 ',
-  schema: 'UpdateProduct',
-  tags: ['Product'],
+  summary: '공지사항 수정 ',
+  schema: 'UpdateNotice',
+  tags: ['Notice'],
   description:'',
   isPublic: true,
   responses: {
@@ -36,11 +36,11 @@ module.exports.update = new ApiRouter({
 })
 
 module.exports.delete = new ApiRouter({
-  name: ':product_idx',
+  name: ':notice_idx',
   method: 'delete',
-  summary: '상품 삭제',
-  schema: 'DeleteProduct',
-  tags: ['Product'],
+  summary: '공지사항 삭제',
+  schema: 'DeleteNotice',
+  tags: ['Notice'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},
@@ -53,10 +53,10 @@ module.exports.delete = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: '조건 별 상품 전체 조회 (조건에 맞는 상품을 불러올 때 사용합니다.)',
-  schema: 'GetProduct',
+  summary: '공지사항 조회',
+  schema: 'GetNotice',
   description: '',
-  tags: ['Product'],
+  tags: ['Notice'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

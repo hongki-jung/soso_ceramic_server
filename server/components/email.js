@@ -17,8 +17,8 @@ module.exports.sendEmail = (sender, context) => {
   let mailOptions = {
     from: config.email.user,
     to: sender,
-    subject: 'CLE 가입 승인번호 안내',
-    html: '<p>귀하의 승인번호는 '+context+'입니다.</p>'
+    subject: 'soso ceramic studio 가입 승인번호 안내',
+    html: '<p> 귀하의 승인번호는 '+context+'입니다.</p>'
   };
 
   console.log('mailOptions')

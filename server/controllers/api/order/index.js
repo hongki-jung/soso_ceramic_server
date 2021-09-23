@@ -1,15 +1,15 @@
 'use strict'
 
 const ApiRouter = require('../../default').ApiRouter
-const ctrl = require('./classTime-ctrl')
+const ctrl = require('./order-ctrl')
 
 
 module.exports.register = new ApiRouter({
   name: '',
   method: 'post',
   summary: 'Register',
-  schema: 'PostClassTime',
-  tags: ['ClassTime'],
+  schema: 'RegisterOrder',
+  tags: ['Order'],
   description: '',
   isPublic: true,
   responses: {
@@ -21,11 +21,11 @@ module.exports.register = new ApiRouter({
 })
 
 module.exports.update = new ApiRouter({
-  name: ':IDX',
+  name: ':order_idx',
   method: 'put',
-  summary: 'update ClassTime ',
-  schema: 'UpdateClassTime',
-  tags: ['ClassTime'],
+  summary: 'Update',
+  schema: 'UpdateOrder',
+  tags: ['Order'],
   description:'',
   isPublic: true,
   responses: {
@@ -36,11 +36,11 @@ module.exports.update = new ApiRouter({
 })
 
 module.exports.delete = new ApiRouter({
-  name: ':IDX',
+  name: ':order_idx',
   method: 'delete',
-  summary: 'Delete ClassTime',
-  schema: 'DeleteClassTime',
-  tags: ['ClassTime'],
+  summary: 'Delete',
+  schema: 'DeleteOrder',
+  tags: ['Order'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},
@@ -50,13 +50,13 @@ module.exports.delete = new ApiRouter({
   handler: ctrl.delete
 })
 
-module.exports.get = new ApiRouter({
+module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: 'Get ClassTime',
-  schema: 'GetClassTime',
+  summary: 'Get',
+  schema: 'GetOrder',
   description: '',
-  tags: ['ClassTime'],
+  tags: ['Order'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

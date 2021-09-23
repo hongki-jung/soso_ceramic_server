@@ -6,7 +6,7 @@
     },
     "type": {
       "type": "string",
-      "enum": ["profile", "parkinglot", "car","ad"]
+      "enum": ["user_profile", "product"]
     }
   },
   "required": ["mimetype", "type"]

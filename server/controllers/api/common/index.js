@@ -19,3 +19,16 @@ module.exports.getImageUrl = new ApiRouter({
 })
 
 
+// module.exports.getUpdatePresignedUrl = new ApiRouter({
+//   name: 'image/update/url',
+//   method: 'get',
+//   summary: '이미 등록된 이미지를 교체합니다',
+//   schema: 'GetUpdatePresignedUrl',
+//   tags: ['Common'],
+//   isPublic:'true',
+//   responses: {
+//     200: {description: 'Success'},
+//     400: {description: 'Invalid data'}
+//   },
+//   handler: ctrl.getUpdatePresignedUrl
+// })

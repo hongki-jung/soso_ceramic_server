@@ -1,0 +1,12 @@
+{
+  "type":"object",
+  "properties":{
+    "user_email":{
+      "type": "string",
+      "minLength":0
+    }
+  },
+  "example":{
+    "user_email":"wjdghdrl288@naver.com"
+  }
+}

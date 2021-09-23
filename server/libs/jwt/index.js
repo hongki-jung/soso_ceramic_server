@@ -48,7 +48,7 @@ module.exports.createRefreshToken = async(data, tokenSecret) => {
     const payload = {
       sub: data.user_idx
     }
-    return await this.createToken(payload, {algorithm: 'HS256', expiresIn: 60 * 60 * 30}, tokenSecret)
+    return await this.createToken(payload, {algorithm: 'HS256', expiresIn: 60 * 60 * 24 * 30 * 6}, tokenSecret)
   } catch (e) {
     throw e
   }

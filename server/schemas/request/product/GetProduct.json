@@ -3,25 +3,31 @@
   "properties": {  
     "product_idx": {
       "type": "number",
-      "minLength":1
+      "minLength":0
     },
     "product_name": {
       "type": "string",
-      "minLength":1
+      "minLength":0
     },
     "product_discription": {
       "type": "string",
-      "minLength":1
+      "minLength":0
     },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     "sold": {
       "type": "number",
-      "minLength":1
+      "minLength":0
+    },
+    "category_idx":{
+      "type":"number",
+      "min_Length":0
+    },
+    "page":{
+      "type":"number",
+      "minLength":0
+    },
+    "limit":{
+      "type":"number",
+      "minLength":0
     }
-  },
-  "example": {
-    "classIdx": "1",
-    "userIdx": "1",
-    "date": "2020-2-20 12:20:40",
-    "contents":"수업 최고!!"
   }
 }

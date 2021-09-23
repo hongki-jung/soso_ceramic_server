@@ -1,27 +1,27 @@
 {
   "type": "object",
   "properties": {  
-    "classIdx": {
-      "type": "number",
-      "minLength":1
-    },
-    "userIdx": {
-      "type": "number",
-      "minLength":1
-    },
-    "date": {
+    "product_name": {
       "type": "string",
       "minLength":1
     },
-    "contents": {
+    "price": {
       "type": "string",
+      "minLength":1
+    },
+    "product_discription": {
+      "type": "string",
+      "minLength":1
+    },
+    "category_idx": {
+      "type": "number",
       "minLength":1
     }
   },
   "example": {
-    "classIdx": "1",
-    "userIdx": "1",
-    "date": "2020-2-20 12:20:40",
-    "contents":"수업 최고!!"
+    "product_name": "루피 도자기",
+    "price": "30000",
+    "product_discription": "최고급  도자기",
+    "category_idx":"1"
   }
 }

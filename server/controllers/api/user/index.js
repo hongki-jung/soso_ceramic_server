@@ -5,7 +5,7 @@ const ctrl = require('./user-ctrl')
 
 
 module.exports.signUp = new ApiRouter({
-  name: 'signUp',
+  name: 'signup',
   method: 'post',
   summary: '유저 회원가입',
   schema: 'SignUpUser',
@@ -20,7 +20,7 @@ module.exports.signUp = new ApiRouter({
 })
 
 module.exports.signIn = new ApiRouter({
-  name: "signIn",
+  name: "signin",
   method: "post",
   summary: "유저 로그인",
   schema: "SignInUser",
@@ -36,7 +36,7 @@ module.exports.signIn = new ApiRouter({
 });
 
 module.exports.update = new ApiRouter({
-  name: ':IDX',
+  name: ':user_idx',
   method: 'put',
   summary: 'update User ',
   schema: 'UpdateUser',
@@ -51,7 +51,7 @@ module.exports.update = new ApiRouter({
 })
 
 module.exports.delete = new ApiRouter({
-  name: ':IDX',
+  name: ':user_idx',
   method: 'delete',
   summary: 'Delete ClassTime',
   schema: 'DeleteUser',
@@ -65,7 +65,7 @@ module.exports.delete = new ApiRouter({
   handler: ctrl.delete
 })
 
-module.exports.get = new ApiRouter({
+module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
   summary: 'Get ClassTime',
@@ -78,4 +78,19 @@ module.exports.get = new ApiRouter({
     400: {description: 'Invalid data'}
   },
   handler: ctrl.getList
+})
+
+module.exports.authNumberSendByEmail = new ApiRouter({
+  name:'send/authNum',
+  metod:'post',
+  summary:'이메일로 인증번호를 보냅니다.',
+  schema: 'AuthNumSend',
+  tags: ['User'],
+  description: '',
+  isPublic: true,
+  responses: {
+      200: {description: 'Success'},
+      400: {description: 'Invalid data'}
+  },
+  handler: ctrl.authNumberSend
 })

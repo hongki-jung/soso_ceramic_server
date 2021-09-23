@@ -7,6 +7,51 @@ module.exports.encryption =  (val) => {
   return CryptoJS.SHA512(val).toString()
 }
 
+
+
+module.exports.makePageData = (listTotal, CurrentPage, block) => {
+  const pagenation = {}
+  const total = listTotal
+  const pageBlock = (!block || block < 0) ? 10 : block
+  
+  if (!CurrentPage || CurrentPage < 0) {
+    pagenation.cur_page = 1
+  } else {
+    pagenation.cur_page = CurrentPage
+  }
+
+  const totalpage = parseInt(total / pageBlock)
+  const remain = total % pageBlock
+  pagenation.block = pageBlock
+
+  
+  if(remain !== 0){
+    pagenation.totalpage = totalpage + 1
+  } else {
+    pagenation.totalpage = totalpage
+  }
+  
+  pagenation.total = total
+  let curPageBlock
+
+  if (pagenation.cur_page % pageBlock === 0 && pagenation.cur_page / pageBlock !== 0) {
+    curPageBlock = parseInt(pagenation.cur_page / pageBlock)
+  } else {
+    curPageBlock = parseInt(pagenation.cur_page / pageBlock) + 1
+  }
+
+  let totalPageBlock = parseInt(pagenation.totalpage / pageBlock) + 1
+  pagenation.total_block = totalPageBlock
+
+  if (curPageBlock === 0) {
+    pagenation.cur_block = 1
+  } else {
+    pagenation.cur_block = curPageBlock
+  }
+
+  return pagenation
+}
+
 module.exports.createTempPassword = (length) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'
   let randNum = null

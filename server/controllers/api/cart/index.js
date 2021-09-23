@@ -1,15 +1,15 @@
 'use strict'
 
 const ApiRouter = require('../../default').ApiRouter
-const ctrl = require('./classReview-ctrl')
+const ctrl = require('./cart-ctrl')
 
 
 module.exports.register = new ApiRouter({
   name: '',
   method: 'post',
-  summary: 'Register',
-  schema: 'PostClassReview',
-  tags: ['ClassReview'],
+  summary: '장바구니 추가',
+  schema: 'PostCart',
+  tags: ['Cart'],
   description: '',
   isPublic: true,
   responses: {
@@ -20,27 +20,27 @@ module.exports.register = new ApiRouter({
   handler: ctrl.register
 })
 
-module.exports.update = new ApiRouter({
-  name: ':IDX',
-  method: 'put',
-  summary: 'Update',
-  schema: 'UpdateClassReview',
-  tags: ['ClassReview'],
-  description:'',
-  isPublic: true,
-  responses: {
-    200: {description: 'Success'},
-    400: {description: 'Invalid data'}
-  },
-  handler: ctrl.update
-})
+// module.exports.update = new ApiRouter({
+//   name: ':cart_idx',
+//   method: 'put',
+//   summary: '장바구니 수정',
+//   schema: 'UpdateCart',
+//   tags: ['Cart'],
+//   description:'',
+//   isPublic: true,
+//   responses: {
+//     200: {description: 'Success'},
+//     400: {description: 'Invalid data'}
+//   },
+//   handler: ctrl.update
+// })
 
 module.exports.delete = new ApiRouter({
-  name: ':IDX',
+  name: ':cart_idx',
   method: 'delete',
-  summary: 'Delete',
-  schema: 'DeleteClassReview',
-  tags: ['ClassReview'],
+  summary: '장바구니 삭제',
+  schema: 'DeleteCart',
+  tags: ['Cart'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},
@@ -50,13 +50,13 @@ module.exports.delete = new ApiRouter({
   handler: ctrl.delete
 })
 
-module.exports.get = new ApiRouter({
+module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: 'Get',
-  schema: 'GetClassReview',
+  summary: '장바구니 조회',
+  schema: 'GetCart',
   description: '',
-  tags: ['ClassReview'],
+  tags: ['Cart'],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

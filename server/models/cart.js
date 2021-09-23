@@ -3,7 +3,7 @@ const db = require('../components/db')
 
 module.exports.getList = async (option) => { // condition filter
     try{
-        let sql = `SELECT * FROM ClassTime`
+        let sql = `SELECT * FROM cart`
 
         // return await db.query(sql)
         return await db.query({
@@ -18,7 +18,7 @@ module.exports.insert = async (options, connection) => {
     try{        
         const {insertContent} = await db.query({
             connection: connection,
-            sql: `INSERT INTO ClassTime SET ?`,
+            sql: `INSERT INTO cart SET ?`,
             values: [options]
           })
           return insertContent
@@ -34,8 +34,8 @@ module.exports.update = async (options, connection) => {
     try{
         const {affectedRows} = await db.query({
             connection: connection,
-            sql: `UPDATE ClassTime SET ? WHERE idx = ?`,
-            values: [options, options.IDX]
+            sql: `UPDATE cart SET ? WHERE cart_idx = ?`,
+            values: [options, options.cart_idx]
           })
 
           console.log('affectedRows ',affectedRows);
@@ -47,12 +47,12 @@ module.exports.update = async (options, connection) => {
 }
 
 
-module.exports.delete = async (IDX, connection) => {
+module.exports.delete = async (options, connection) => {
     try{
         return await db.query({
             connection,
-            sql: `DELETE FROM ClassTime WHERE idx = ?`,
-            values: [IDX]
+            sql: `DELETE FROM cart WHERE cart_idx = ?`,
+            values: [options.cart_idx]
           })
     } catch(err){
         throw new Error(err)

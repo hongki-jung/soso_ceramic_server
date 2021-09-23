@@ -1,20 +1,24 @@
 'use strict'
 
-const handler = require('./classReview-handler')
+const orderModel = require('../../../models/order')
+const orderDetailModel = require('../../../models/orderDetail')
+
 const db = require('../../../components/db')
-const crypto = require('../../../components/crypto')
 const util = require('../../../components/util')
 
 
 module.exports.register = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try {
-    const newReview = req.options
-    newReview.date = util.getCurrentTime();
+    const newOrder = req.options
+    newOrder.first_create_dt = util.getCurrentTime();
+    // if (newOrder.productList && newOrder.productList.length > 0){
+    //   // 멀티 인설트 구현
+    //   orderDetailModel.insert({productList}, connection)
+    // }
 
-    console.log('newReview ',newReview);
 
-    const result = await handler.insert(newReview, connection)
+    const result = await orderModel.insert(newOrder, connection)
     await db.commit(connection)
     res.status(200).json({result: result});
   }
@@ -27,11 +31,11 @@ module.exports.register = async (req, res, next) => {
 module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
-    const newReview = req.options
-    console.log('newReview ',newReview);
+    const order_info = req.options
+    console.log('order_info ',order_info);
 
-    const result = await handler.update(newReview, connection)
-    if(result === 0) throw {status: 404, errorMessage: 'Not found lecture'}
+    const result = await orderModel.update(order_info, connection)
+    if(result === 0) throw {status: 404, errorMessage: 'Not found order'}
     
     await db.commit(connection)
     res.status(200).json({result:true})
@@ -46,9 +50,9 @@ module.exports.update = async (req, res, next) => {
 module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
-    const delReview =req.options;
+    const order_info =req.options;
     console.log('delReview ',delReview);
-    const result = await handler.delete({IDX:delReview.IDX}, connection)
+    const result = await orderModel.delete({order_idx:order_info.order_idx}, connection)
     await db.commit(connection)
     let returnValue = false;
     
