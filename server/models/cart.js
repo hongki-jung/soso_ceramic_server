@@ -1,14 +1,21 @@
 const db = require('../components/db')
 
 
-module.exports.getList = async (option) => { // condition filter
+module.exports.getList = async (options) => { // condition filter
     try{
-        let sql = `SELECT * FROM cart`
+      const {user_idx, cart_idx} = options
+      let whereClause = ``
+      if (user_idx) whereClause += ` AND cart.user_idx = ${user_idx}`
+      if (cart_idx) whereClause += ` AND cart.cart_idx = ${cart_idx}`
 
-        // return await db.query(sql)
-        return await db.query({
-            sql: sql
-        })
+      let sql = `
+        SELECT * FROM cart WHERE 1=1 ${whereClause} ORDER BY cart.first_create_dt DESC  
+        `
+      // return await db.query(sql)
+      return await db.query({
+          sql: sql
+      })
+
     } catch(err){
         throw new Error(err)
     }
@@ -16,12 +23,12 @@ module.exports.getList = async (option) => { // condition filter
 
 module.exports.insert = async (options, connection) => {
     try{        
-        const {insertContent} = await db.query({
+        const {insertId} = await db.query({
             connection: connection,
             sql: `INSERT INTO cart SET ?`,
             values: [options]
           })
-          return insertContent
+          return insertId
     }
         catch(err){
         throw new Error(err)

@@ -11,7 +11,8 @@ module.exports.register = async (req, res, next) => {
   try {
     const newCart = req.options
     console.log('newCart ',newCart);
-    
+    newCart.first_create_dt = util.getCurrentTime()
+
     const result = await cartModel.insert(newCart, connection)
     await db.commit(connection)
     res.status(200).json({result: result});
@@ -63,10 +64,11 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+// 장바구니 조회 (특정 유저의 장바구니 리스트를 불러올 때도 사용된다.)
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-
+    console.log("params",params)
     const result = await cartModel.getList(params)
     res.status(200).json(result)
   }

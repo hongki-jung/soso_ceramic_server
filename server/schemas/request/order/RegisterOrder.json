@@ -1,27 +1,38 @@
 {
   "type": "object",
   "properties": {  
-    "classIdx": {
+    "user_idx": {
       "type": "number",
       "minLength":1
     },
-    "userIdx": {
-      "type": "number",
-      "minLength":1
-    },
-    "date": {
+    "order_date": {
       "type": "string",
       "minLength":1
     },
-    "contents": {
+    "order_state": {
       "type": "string",
+      "minLength":1
+    },
+    "order_detail_list": {
+      "type": "array",
       "minLength":1
     }
   },
   "example": {
-    "classIdx": "1",
-    "userIdx": "1",
-    "date": "2020-2-20 12:20:40",
-    "contents":"수업 최고!!"
+    "user_idx": "1",
+    "order_date": "2020-2-20 12:20:40",
+    "order_state": "ready",
+    "order_detail_list":[
+      {
+        "product_idx":1,
+        "product_count":2,
+        "product_price":30000
+      },
+      {
+        "product_idx":4,
+        "product_count":1,
+        "product_price":10000
+      }
+    ]
   }
 }

@@ -1,33 +1,22 @@
 {  
   "type": "object",
   "properties": {  
-    "cart_idx": {
-      "type": "number",
-      "minLength":1,
-      "description":"유저 인덱스" 
-    },    
-    "beginTime": {
-      "type": "string",
-      "minLength":1    
-    },
-    "endTime":{
+    "user_idx":{
       "type":"string",
       "minLength":1
     },
-    "weekday":{
-      "type":"string",
-      "enum":["월","화","수","목","금","토","일"]
+    "product_idx": {
+      "type": "number",
+      "minLength":1    
     },
-    "studentTotal":{
+    "quantity":{
       "type":"number",
       "minLength":1
     }
   },
   "example": {
-    "classIdx": "1",
-    "beginTime": "2020-2-25 21:30:20",
-    "endTime":"2020-2-15 23:30:20",
-    "weekday":"월",
-    "studentTotal":"20"  
+    "user_idx": "1",
+    "product_idx": "2",
+    "quantity":"2"
   }
 }

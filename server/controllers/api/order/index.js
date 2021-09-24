@@ -7,7 +7,7 @@ const ctrl = require('./order-ctrl')
 module.exports.register = new ApiRouter({
   name: '',
   method: 'post',
-  summary: 'Register',
+  summary: '주문',
   schema: 'RegisterOrder',
   tags: ['Order'],
   description: '',
@@ -23,7 +23,7 @@ module.exports.register = new ApiRouter({
 module.exports.update = new ApiRouter({
   name: ':order_idx',
   method: 'put',
-  summary: 'Update',
+  summary: '주문 상태 변경',
   schema: 'UpdateOrder',
   tags: ['Order'],
   description:'',
@@ -38,7 +38,7 @@ module.exports.update = new ApiRouter({
 module.exports.delete = new ApiRouter({
   name: ':order_idx',
   method: 'delete',
-  summary: 'Delete',
+  summary: '주문 취소',
   schema: 'DeleteOrder',
   tags: ['Order'],
   isPublic: true,
@@ -53,7 +53,7 @@ module.exports.delete = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: 'Get',
+  summary: '주문 정보 조회 (주문 정보와 주문한 유저의 정보 등을 불러온다)',
   schema: 'GetOrder',
   description: '',
   tags: ['Order'],

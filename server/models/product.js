@@ -39,6 +39,24 @@ module.exports.getList = async (options) => {
     }
 }
 
+
+module.exports.findOneByProductIdx = async(options) =>{
+  try{
+    let sql =`
+        SELECT product.*, category.category_name FROM product 
+          INNER JOIN category ON product.category_idx = category.category_idx
+        WHERE product_idx = ?
+    `
+    const result = await db.query({
+      sql,
+      values: [options.product_idx]
+    })
+    return result[0]
+  }catch(err){
+    throw new Error(err)
+  }
+}
+
 module.exports.insert = async (options, connection) => {
     try{        
         const {insertId} = await db.query({
@@ -83,19 +101,3 @@ module.exports.delete = async (IDX, connection) => {
     }
 }
 
-module.exports.findOneByProductIdx = async(options) =>{
-  try{
-    let sql =`
-        SELECT product.*, category.category_name FROM product 
-          INNER JOIN category ON product.category_idx = category.category_idx
-        WHERE product_idx = ?
-    `
-    const result = await db.query({
-      sql,
-      values: [options.product_idx]
-    })
-    return result[0]
-  }catch(err){
-    throw new Error(err)
-  }
-}

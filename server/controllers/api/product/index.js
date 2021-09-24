@@ -69,7 +69,7 @@ module.exports.getList = new ApiRouter({
 module.exports.getProductDetailInfo = new ApiRouter({
   name: 'product-detail/:product_idx',
   method: 'get',
-  summary: '특정 상품의 상세정보를 불러올 때 사용합니다.',
+  summary: '특정 상품의 상세정보를 불러올 때 사용합니다. (상품의 상세 이미지도 불러 온다)',
   schema: 'GetProductDetail',
   description: '',
   tags: ['Product'],

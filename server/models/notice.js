@@ -16,12 +16,12 @@ module.exports.getList = async (option) => { // condition filter
 
 module.exports.insert = async (options, connection) => {
     try{        
-        const {insertContent} = await db.query({
+        const {insertId} = await db.query({
             connection: connection,
             sql: `INSERT INTO notice SET ?`,
             values: [options]
           })
-          return insertContent
+          return insertId
     }
         catch(err){
         throw new Error(err)

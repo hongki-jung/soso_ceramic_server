@@ -1,27 +1,31 @@
 {
   "type": "object",
   "properties": {  
-    "classIdx": {
+    "order_idx": {
       "type": "number",
-      "minLength":1
+      "minLength":0
     },
-    "userIdx": {
+    "user_idx": {
       "type": "number",
-      "minLength":1
+      "minLength":0
     },
-    "date": {
+    "order_dt": {
       "type": "string",
-      "minLength":1
+      "minLength":0
     },
-    "contents": {
+    "order_state": {
       "type": "string",
-      "minLength":1
+      "enum": ["ready","proceeding", "end"],
+      "description":"read: 준비중, proceeding: 배송중, end: 배송완료"
+      
+    },
+    "page":{
+      "type":"number",
+      "minLength":0
+    },
+    "limit":{
+      "type":"number",
+      "minLength":0
     }
-  },
-  "example": {
-    "classIdx": "1",
-    "userIdx": "1",
-    "date": "2020-2-20 12:20:40",
-    "contents":"수업 최고!!"
   }
 }

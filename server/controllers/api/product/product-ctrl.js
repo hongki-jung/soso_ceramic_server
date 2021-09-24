@@ -49,11 +49,13 @@ module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const product_info = req.options
-    
+    // 메인 이미지를 비롯한 상품 정보 수정 
     const result = await productModel.update(product_info, connection)
     if(result === 0) throw {status: 404, errorMessage: 'Product Not found'}
     
-    if (product_info.product_detail_image && product_info.product_detail_image.length >0){
+    // 상품 상세이미지 수정이 요청된 경우
+    // 기존의 상세이미지들의 path를 지워주고 새로운 path를 넣어준다
+    if (product_info.product_detail_image && product_info.product_detail_image.length > 0){
 
     }
 
@@ -116,7 +118,6 @@ module.exports.getProductDetailInfo = async (req, res, next) => {
         path: item.path
       }
     })
-    console.log("hi")
     result.productDetailImg = [...productDetailImg]
 
     res.status(200).json(result)

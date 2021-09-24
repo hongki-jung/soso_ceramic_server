@@ -16,12 +16,12 @@ module.exports.getList = async (option) => { // condition filter
 
 module.exports.insert = async (options, connection) => {
     try{        
-        const {insertContent} = await db.query({
+        const {insertId} = await db.query({
             connection: connection,
             sql: `INSERT INTO order_detail SET ?`,
             values: [options]
           })
-          return insertContent
+          return insertId
     }
         catch(err){
         throw new Error(err)
@@ -56,3 +56,20 @@ module.exports.delete = async (options, connection) => {
     }
 }
 
+
+// multi insert
+// [[],[],[]] 형식
+module.exports.multipleInsert = async (options, connection) =>{
+  try{
+    const result = await db.query({
+      conection: connection,
+      sql:
+        "INSERT INTO order_detail (`order_idx`, `product_idx`, `product_count`, `product_price`) VALUES ?",
+      values: [options]
+      
+    })
+    return result;
+  }catch(err){
+    throw new Error(err)
+  }
+}
