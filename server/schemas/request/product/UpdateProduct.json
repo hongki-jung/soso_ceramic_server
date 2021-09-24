@@ -1,27 +1,40 @@
 {
   "type": "object",
   "properties": {  
-    "product_idx": {
-      "type": "number",
-      "minLength":1
-    },
-    "userIdx": {
-      "type": "number",
-      "minLength":1
-    },
-    "date": {
+    "product_name": {
       "type": "string",
       "minLength":1
     },
-    "contents": {
+    "price": {
       "type": "string",
       "minLength":1
+    },
+    "product_discription": {
+      "type": "string",
+      "minLength":1
+    },
+    "category_idx": {
+      "type": "number",
+      "minLength":1
+    },
+    "main_image_path":{
+      "type":"string",
+      "minLength":0
+    },
+    "product_detail_images":{
+      "type":"array",
+      "minLength":0
     }
   },
   "example": {
-    "classIdx": "1",
-    "userIdx": "1",
-    "date": "2020-2-20 12:20:40",
-    "contents":"수업 최고!!"
+    "product_name": "루피 도자기",
+    "price": "30000",
+    "product_discription": "최고급  도자기",
+    "category_idx":"1",
+    "main_image_path":"https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/08/104827150.2.jpg",
+    "product_detail_images":[
+      "https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/08/104827150.2.jpg",
+      "https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/08/104827150.2.jpg"
+    ]
   }
 }

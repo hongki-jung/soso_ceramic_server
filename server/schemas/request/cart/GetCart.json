@@ -1,32 +1,21 @@
-{  
+
+{
   "type": "object",
-  "properties": {  
-    "classIdx": {
-      "type": "number",
-      "minLength":1    
-    },    
-    "beginTime": {
-      "type": "string",
-      "minLength":1    
-    },
-    "endTime":{
-      "type":"string",
-      "minLength":1
-    },
-    "weekday":{
-      "type":"string",
-      "enum":["월","화","수","목","금","토","일"]
-    },
-    "studentTotal":{
-      "type":"number",
-      "minLength":1
-    }
+  "properties": { 
+    "user_idx": {
+        "type": "number",
+        "minLength":0,
+        "description":"특정 유저의 장바구니 조회"
+      },
+      "cart_idx": {
+          "type": "number"
+          
+      }
+
   },
   "example": {
-    "classIdx": "1",
-    "beginTime": "2020-2-25 21:30:20",
-    "endTime":"2020-2-15 23:30:20",
-    "weekday":"월",
-    "studentTotal":"20"  
+    "user_idx":"2",
+    "cart_idx":"3"  
+
   }
 }

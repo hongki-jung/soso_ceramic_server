@@ -1,12 +1,12 @@
 {  
   "type": "object",
   "properties": {  
-    "cart_idx": {
+    "category_idx": {
       "type": "number",
       "minLength":1    
     }
   },
   "example": {
-    "cart_idx": "1"
+    "category_idx": "1"
   }
 }

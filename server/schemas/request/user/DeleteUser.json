@@ -3,7 +3,7 @@
   "properties": {  
     "user_idx":{
       "type":"number",
-      "minLength":0
+      "minLength":1
     }
   },
   "example": {
