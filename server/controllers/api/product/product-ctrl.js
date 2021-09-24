@@ -116,7 +116,7 @@ module.exports.getProductDetailInfo = async (req, res, next) => {
         path: item.path
       }
     })
-
+    console.log("hi")
     result.productDetailImg = [...productDetailImg]
 
     res.status(200).json(result)
