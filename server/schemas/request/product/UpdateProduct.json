@@ -9,7 +9,7 @@
       "type": "string",
       "minLength":1
     },
-    "product_discription": {
+    "product_description": {
       "type": "string",
       "minLength":1
     },
@@ -29,7 +29,7 @@
   "example": {
     "product_name": "루피 도자기",
     "price": "30000",
-    "product_discription": "최고급  도자기",
+    "product_description": "최고급  도자기",
     "category_idx":"1",
     "main_image_path":"https://dimg.donga.com/wps/NEWS/IMAGE/2021/01/08/104827150.2.jpg",
     "product_detail_images":[

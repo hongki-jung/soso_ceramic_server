@@ -5,7 +5,7 @@
       "type": "number",
       "minLength":1
     },
-    "order_date": {
+    "order_dt": {
       "type": "string",
       "minLength":1
     },
@@ -20,7 +20,7 @@
   },
   "example": {
     "user_idx": "1",
-    "order_date": "2020-2-20 12:20:40",
+    "order_dt": "2020-2-20 12:20:40",
     "order_state": "ready",
     "order_detail_list":[
       {

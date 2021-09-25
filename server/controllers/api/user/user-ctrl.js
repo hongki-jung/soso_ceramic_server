@@ -64,12 +64,12 @@ module.exports.signIn = async (req, res, next) => {
     if (user.user_pwd !== pwdCheck) throw {status: 401, errorMessage: "Authentication failed" }
 
     // access token 발급
-    const access_token = await jwt.createAccessToken({user_id: user_info.user_id, user_email: user_info.user_email})
+    const access_token = await jwt.createAccessToken({user_id: userInfo.user_id, user_email: userInfo.user_email})
     
     delete user.user_pwd;
     delete user.salt;
 
-    res.cookie("w_auth", access_token).status(200).json({ result: user });
+    res.cookie("w_auth", access_token).status(200).json({ result: user, loginSuccess: true });
 
   } catch (err) {
     await db.rollback(connection);

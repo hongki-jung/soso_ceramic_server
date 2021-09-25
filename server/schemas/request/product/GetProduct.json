@@ -9,7 +9,7 @@
       "type": "string",
       "minLength":0
     },
-    "product_discription": {
+    "product_description": {
       "type": "string",
       "minLength":0
     },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
