@@ -59,13 +59,12 @@ module.exports.signIn = async (req, res, next) => {
     console.log("user ?",user)
     // 유저 패스워드 체크
     const pwdCheck = crypto.getPasswordPbkdf2(userInfo.user_pwd, user.salt);
-    console.log("pwdCheck ",pwdCheck)
-    console.log("user.user_pwd",user.user_pwd)
+
     if (user.user_pwd !== pwdCheck) throw {status: 401, errorMessage: "Authentication failed" }
 
     // access token 발급
-    const access_token = await jwt.createAccessToken({user_id: userInfo.user_id, user_email: userInfo.user_email})
-    
+    const access_token = await jwt.createAccessToken({userId: userInfo.user_id, userIdx: user.user_idx})
+    console.log("access_token ?",access_token)
     delete user.user_pwd;
     delete user.salt;
     user.loginSuccess = true
@@ -164,9 +163,10 @@ module.exports.auth = async (req, res, next) => {
   try {
     const params = req.options
     const token = req.cookies
-    console.log("req.cookies ?",req.cookies)
-    // const result = await userModel.getList(params)
-    res.status(200).json(result)
+
+    const decoded = await jwt.decodeToken(token.w_auth)
+    // console.log("decoded in auth",decoded)
+    res.status(200).json(decoded)
   }
   catch (err) {
     next(err)

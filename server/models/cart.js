@@ -9,7 +9,10 @@ module.exports.getList = async (options) => { // condition filter
       if (cart_idx) whereClause += ` AND cart.cart_idx = ${cart_idx}`
 
       let sql = `
-        SELECT * FROM cart WHERE 1=1 ${whereClause} ORDER BY cart.first_create_dt DESC  
+        SELECT * FROM cart 
+          INNER JOIN product ON product.product_idx = cart.product_idx
+          WHERE 1=1 ${whereClause} 
+          ORDER BY cart.first_create_dt DESC  
         `
       // return await db.query(sql)
       return await db.query({

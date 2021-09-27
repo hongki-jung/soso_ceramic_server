@@ -12,7 +12,7 @@ module.exports.createToken = async (payload,options,secret=privateKey) => {
     const token = await new Promise((resolve,reject)=>{
       resolve(jwt.sign(payload,secret,options))
     }).then(result=>{return result}) 
-    console.log('token',token)
+  
     return token
   } catch (err) {
     throw err
@@ -29,8 +29,9 @@ module.exports.decodeToken = async (token,options,secret=publicKey) => {
 
 module.exports.createAccessToken = async(data) => {
   try {
-    const {user_idx, user_email} = data
-    const payload = {sub: user_idx, user_email}
+
+    const {userIdx, userId} = data
+    const payload = {userIdx: userIdx, userId: userId}
     const tokenAccess = await this.createToken(payload, {
       algorithm: 'RS256',
       expiresIn: 60 * 60 * 7
