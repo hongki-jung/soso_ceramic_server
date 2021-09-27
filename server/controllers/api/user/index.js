@@ -94,3 +94,19 @@ module.exports.authNumberSendByEmail = new ApiRouter({
   },
   handler: ctrl.authNumberSend
 })
+
+
+module.exports.auth = new ApiRouter({
+  name:'auth',
+  metod:'get',
+  summary:'로그인한 상태인지 확인',
+  schema: 'AuthCheck',
+  tags: ['User'],
+  description: '',
+  isPublic: true,
+  responses: {
+      200: {description: 'Success'},
+      400: {description: 'Invalid data'}
+  },
+  handler: ctrl.auth
+})

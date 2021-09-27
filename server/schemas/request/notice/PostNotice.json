@@ -1,32 +1,17 @@
 {  
   "type": "object",
   "properties": {  
-    "classIdx": {
-      "type": "number",
-      "minLength":1    
+    "title": {
+      "type": "string",
+      "minLength":1 
     },    
-    "beginTime": {
+    "content": {
       "type": "string",
       "minLength":1    
-    },
-    "endTime":{
-      "type":"string",
-      "minLength":1
-    },
-    "weekday":{
-      "type":"string",
-      "enum":["월","화","수","목","금","토","일"]
-    },
-    "studentTotal":{
-      "type":"number",
-      "minLength":1
     }
   },
   "example": {
-    "classIdx": "1",
-    "beginTime": "2020-2-25 21:30:20",
-    "endTime":"2020-2-15 23:30:20",
-    "weekday":"월",
-    "studentTotal":"20"  
+    "title": "안녕하세요 소소도자기 공방입니다.",
+    "content": "공지사항 내용"
   }
 }

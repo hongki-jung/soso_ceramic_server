@@ -62,6 +62,7 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+
 // 공지사항 리스트 불러오기
 module.exports.getList = async (req, res, next) => {
   try {

@@ -39,6 +39,7 @@ module.exports.delete = new ApiRouter({
   name: ':notice_idx',
   method: 'delete',
   summary: '공지사항 삭제',
+  path:["notice_idx"],
   schema: 'DeleteNotice',
   tags: ['Notice'],
   isPublic: true,
@@ -57,6 +58,8 @@ module.exports.getList = new ApiRouter({
   schema: 'GetNotice',
   description: '',
   tags: ['Notice'],
+  // path:["notice_idx"],
+  required:false,
   isPublic: true,
   responses: {
     200: {description: 'Success'},

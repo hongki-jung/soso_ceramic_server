@@ -26,8 +26,8 @@ module.exports.signUp = async (req, res, next) => {
     newUser.user_pwd = encodedPw;
  
     // refresh token 발급
-    const token = await jwt.createRefreshToken({user_id: newUser.user_id, user_email: newUser.user_email})
-    newUser.refresh_token = token
+    // const token = await jwt.createRefreshToken({user_id: newUser.user_id, user_email: newUser.user_email})
+    // newUser.refresh_token = token
 
     // 회원가입 시간
     newUser.first_create_dt = util.getCurrentTime();
@@ -68,8 +68,8 @@ module.exports.signIn = async (req, res, next) => {
     
     delete user.user_pwd;
     delete user.salt;
-
-    res.cookie("w_auth", access_token).status(200).json({ result: user, loginSuccess: true });
+    user.loginSuccess = true
+    res.cookie("w_auth", access_token).status(200).json({ result: user});
 
   } catch (err) {
     await db.rollback(connection);
@@ -154,5 +154,21 @@ module.exports.authNumberSend = async(req, res, next)=>{
   }
   finally{
     await connection.destroy()
+  }
+}
+
+
+
+
+module.exports.auth = async (req, res, next) => {
+  try {
+    const params = req.options
+    const token = req.cookies
+    console.log("req.cookies ?",req.cookies)
+    // const result = await userModel.getList(params)
+    res.status(200).json(result)
+  }
+  catch (err) {
+    next(err)
   }
 }

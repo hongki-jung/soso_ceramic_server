@@ -1,32 +1,21 @@
 {  
   "type": "object",
   "properties": {  
-    "classIdx": {
+    "notice_idx": {
       "type": "number",
-      "minLength":1    
-    },    
-    "beginTime": {
-      "type": "string",
-      "minLength":1    
+      "minLength":0
     },
-    "endTime":{
-      "type":"string",
-      "minLength":1
-    },
-    "weekday":{
-      "type":"string",
-      "enum":["월","화","수","목","금","토","일"]
-    },
-    "studentTotal":{
+    "page":{
       "type":"number",
-      "minLength":1
+      "minLength":0
+    },
+    "limit":{
+      "type":"number",
+      "minLength":0
     }
+
   },
   "example": {
-    "classIdx": "1",
-    "beginTime": "2020-2-25 21:30:20",
-    "endTime":"2020-2-15 23:30:20",
-    "weekday":"월",
-    "studentTotal":"20"  
+    "notice_idx": "1"
   }
 }

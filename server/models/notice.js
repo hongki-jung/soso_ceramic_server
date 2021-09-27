@@ -1,9 +1,26 @@
 const db = require('../components/db')
 
 
-module.exports.getList = async (option) => { // condition filter
+module.exports.getList = async (options) => { // condition filter
     try{
-        let sql = `SELECT * FROM notice`
+        const {notice_idx, limit} = options
+        let page = options.page
+        if(!page || page<0){
+          page=1;
+        }
+        let offset = (page-1)*limit
+        let limitClause
+        if(limit){
+          limitClause = `limit ${offset}, ${limit}`;
+        }else{
+          limitClause = ``
+        }
+
+        let whereClause = ``;
+        if (notice_idx) whereClause += ` AND notice.notice_idx = ${notice_idx}`
+        
+
+        let sql = `SELECT * FROM notice WHERE 1=1 ${whereClause} ORDER BY notice.first_create_dt DESC ${limitClause}`
 
         // return await db.query(sql)
         return await db.query({
