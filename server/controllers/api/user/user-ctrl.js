@@ -55,8 +55,7 @@ module.exports.signIn = async (req, res, next) => {
 
     // 유저 계정 존재 유무확인
     if (!user) throw { status: 400, errorMessage: "User not found" }
-    console.log("userInfo",userInfo)
-    console.log("user ?",user)
+ 
     // 유저 패스워드 체크
     const pwdCheck = crypto.getPasswordPbkdf2(userInfo.user_pwd, user.salt);
 
@@ -64,10 +63,11 @@ module.exports.signIn = async (req, res, next) => {
 
     // access token 발급
     const access_token = await jwt.createAccessToken({userEmail: userInfo.user_email, userIdx: user.user_idx})
-    console.log("access_token ?",access_token)
+
     delete user.user_pwd;
     delete user.salt;
     user.loginSuccess = true
+
     res.cookie("w_auth", access_token).status(200).json({ result: user});
 
   } catch (err) {
@@ -115,10 +115,11 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+// 유저 조회
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-    console.log('hihi')
+    
     const result = await userModel.getList(params)
     res.status(200).json(result)
   }
@@ -158,7 +159,7 @@ module.exports.authNumberSend = async(req, res, next)=>{
 
 
 
-
+// 토큰 체크
 module.exports.tokenCheck = async (req, res, next) => {
   try {
     const token = req.cookies
@@ -175,7 +176,7 @@ module.exports.tokenCheck = async (req, res, next) => {
   }
 }
 
-
+// 로그아웃
 module.exports.logout = async (req, res, next) => {
   try {
     const token = req.cookies
