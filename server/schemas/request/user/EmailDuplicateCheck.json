@@ -1,0 +1,9 @@
+{
+  "type":"object",
+  "properties":{
+    "user_email":{
+      "type": "string",
+      "minLength":1
+    }
+  }
+}

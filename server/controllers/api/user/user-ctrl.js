@@ -128,7 +128,7 @@ module.exports.getList = async (req, res, next) => {
   }
 }
 
-
+// 유저 이메일로 인증번호를 보낸다.
 module.exports.authNumberSend = async(req, res, next)=>{
   const connection = await db.beginTransaction()
   try{
@@ -190,5 +190,24 @@ module.exports.logout = async (req, res, next) => {
     next(err)
   }
 }
+
+// email 중복체크
+module.exports.emailDuplicateCheck = async(req, res, next) => {
+  
+  try{
+    const newUser = req.options;
+    const userEmail = await userModel.findOneById(newUser.user_email);
+
+    // 이미 등록된 이메일이 있을 경우
+    if (userEmail) { return res.status(409).json({ success: false, message:'Duplicate Email'}) }
+    
+    return res.status(200).json({success: true})
+
+  }catch(err){
+    next(err)
+  }
+
+}
+
 
 
