@@ -1,7 +1,7 @@
 {
     "type": "object",
     "properties": {
-      "user_id": {
+      "user_email": {
         "type": "string",
         "minLength": 1
       },
@@ -10,7 +10,7 @@
         "minLength": 1
       },
     "example": {
-      "user_id": "testId",
+      "user_email": "testId",
       "user_pwd": "134312"
         }
     }

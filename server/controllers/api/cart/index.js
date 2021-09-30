@@ -41,7 +41,7 @@ module.exports.delete = new ApiRouter({
   summary: '장바구니 삭제 (유저가 특정 상품을 장바구니에서 삭제할 때 사용합니다.',
   schema: 'DeleteCart',
   tags: ['Cart'],
-  path:"cart_idx",
+  path:["cart_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

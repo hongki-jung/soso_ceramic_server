@@ -68,7 +68,7 @@ module.exports.delete = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: 'Get ClassTime',
+  summary: '유저 조회',
   schema: 'GetUser',
   description: '',
   tags: ['User'],
@@ -81,7 +81,7 @@ module.exports.getList = new ApiRouter({
 })
 
 module.exports.authNumberSendByEmail = new ApiRouter({
-  name:'send/authNum',
+  name:'email-certification/send',
   metod:'post',
   summary:'이메일로 인증번호를 보냅니다.',
   schema: 'AuthNumSend',
@@ -96,11 +96,11 @@ module.exports.authNumberSendByEmail = new ApiRouter({
 })
 
 
-module.exports.auth = new ApiRouter({
-  name:'auth',
+module.exports.tokenCheck = new ApiRouter({
+  name:'tokenCheck',
   metod:'get',
-  summary:'로그인한 상태인지 확인',
-  schema: 'AuthCheck',
+  summary:'토큰 확인',
+  schema: 'tokenCheck',
   tags: ['User'],
   description: '',
   isPublic: true,
@@ -108,5 +108,21 @@ module.exports.auth = new ApiRouter({
       200: {description: 'Success'},
       400: {description: 'Invalid data'}
   },
-  handler: ctrl.auth
+  handler: ctrl.tokenCheck
+})
+
+
+module.exports.logout = new ApiRouter({
+  name:'logout',
+  metod:'get',
+  summary:'유저 로그아웃',
+  schema: 'LogoutUser',
+  tags: ['User'],
+  description: '',
+  isPublic: true,
+  responses: {
+      200: {description: 'Success'},
+      400: {description: 'Invalid data'}
+  },
+  handler: ctrl.logout
 })

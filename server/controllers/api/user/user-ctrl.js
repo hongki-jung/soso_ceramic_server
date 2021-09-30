@@ -16,9 +16,9 @@ module.exports.signUp = async (req, res, next) => {
   try {
     const newUser = req.options;
 
-    // id 중복체크
-    const userId = await userModel.findOneById(newUser.user_id);
-    if (userId) {  throw { status: 409, errorMessage: "Duplicate ID" };}
+    // email 중복체크
+    const userEmail = await userModel.findOneById(newUser.user_email);
+    if (userEmail) {  throw { status: 409, errorMessage: "Duplicate ID" };}
 
     // pwd 암호화 
     const { salt, encodedPw } = crypto.createPasswordPbkdf2(newUser.user_pwd);
@@ -26,10 +26,10 @@ module.exports.signUp = async (req, res, next) => {
     newUser.user_pwd = encodedPw;
  
     // refresh token 발급
-    // const token = await jwt.createRefreshToken({user_id: newUser.user_id, user_email: newUser.user_email})
+    // const token = await jwt.createRefreshToken({user_email: newUser.user_email, user_email: newUser.user_email})
     // newUser.refresh_token = token
 
-    // 회원가입 시간
+    // 회원가입 일/시간
     newUser.first_create_dt = util.getCurrentTime();
 
     const result = await userModel.insert(newUser, connection);
@@ -51,7 +51,7 @@ module.exports.signIn = async (req, res, next) => {
   try {
 
     const userInfo = req.options;
-    const user = await userModel.findOneById(userInfo.user_id);
+    const user = await userModel.findOneById(userInfo.user_email);
 
     // 유저 계정 존재 유무확인
     if (!user) throw { status: 400, errorMessage: "User not found" }
@@ -63,7 +63,7 @@ module.exports.signIn = async (req, res, next) => {
     if (user.user_pwd !== pwdCheck) throw {status: 401, errorMessage: "Authentication failed" }
 
     // access token 발급
-    const access_token = await jwt.createAccessToken({userId: userInfo.user_id, userIdx: user.user_idx})
+    const access_token = await jwt.createAccessToken({userEmail: userInfo.user_email, userIdx: user.user_idx})
     console.log("access_token ?",access_token)
     delete user.user_pwd;
     delete user.salt;
@@ -159,11 +159,13 @@ module.exports.authNumberSend = async(req, res, next)=>{
 
 
 
-module.exports.auth = async (req, res, next) => {
+module.exports.tokenCheck = async (req, res, next) => {
   try {
-    const params = req.options
     const token = req.cookies
-
+    
+    // 토큰이 없을 경우 실패 메시지
+    if(!token.w_auth) {return res.json({success:false, message: 'not logged in'})}
+    
     const decoded = await jwt.decodeToken(token.w_auth)
     // console.log("decoded in auth",decoded)
     res.status(200).json(decoded)
@@ -172,3 +174,20 @@ module.exports.auth = async (req, res, next) => {
     next(err)
   }
 }
+
+
+module.exports.logout = async (req, res, next) => {
+  try {
+    const token = req.cookies
+    
+    // 토큰이 없을 경우 실패 메시지
+    if(!token){ return res.status(403).json({success:false, message: 'not logged in'})}
+
+    return res.cookie("w_auth","").json({logoutSuccess: true})
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+

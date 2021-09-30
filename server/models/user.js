@@ -1,10 +1,11 @@
-const db = require('../components/db')
+const db = require('../components/db');
+const { limit } = require('../config');
 
 
-// ID
+// Email
 module.exports.findOneById = async (id) => {
   try {
-    let query = `SELECT * FROM user WHERE user_id = ? limit 1`;
+    let query = `SELECT * FROM user WHERE user_email = ? limit 1`;
     // return await db.query(sql, [id])
     //console.log("query : ", query);
     const result = await db.query({
@@ -18,13 +19,39 @@ module.exports.findOneById = async (id) => {
   }
 };
 
-module.exports.getList = async (option) => { // condition filter
+module.exports.getList = async (options) => { // condition filter
     try{
-        let sql = `SELECT * FROM user`
+      const {user_idx, user_email, phone_number, user_name, user_level, limit} = options
+      let page = options.page;
+      console.log("page :",page)
 
-        // return await db.query(sql)
-        return await db.query({
-            sql: sql
+      if(!page || page<0){
+        page=1;
+      }
+      let offset = (page -1) *limit
+      let limitClause;
+      if (limit) {
+        limitClause = `limit ${offset},${limit}`;
+      }else{
+        limitClause = ``;  
+      }
+      let whereClause = ``;
+
+      if(user_idx) whereClause += `AND user.user_idx = ${user_idx}`
+      if(user_email) whereClause += `AND user.user_email LIKE '%${user_email}%'`;
+      if(phone_number) whereClause += `AND user.phone_number LIKE '%${phone_number}%'`;
+      if(user_name) whereClause += `AND user.user_name = '${user_name}'`;
+      if(user_level) whereClause += `AND user.user_level = '${user_level}'`;
+
+      let sql = `
+          SELECT * FROM user 
+            WHERE 1=1 ${whereClause} 
+            ORDER BY user.first_create_dt DESC ${limitClause}
+          `
+
+      // return await db.query(sql)
+      return await db.query({
+          sql: sql
         })
     } catch(err){
         throw new Error(err)

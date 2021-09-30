@@ -11,8 +11,13 @@ module.exports.register = async (req, res, next) => {
   try {
     const newCart = req.options
     console.log('newCart ',newCart);
-    newCart.first_create_dt = util.getCurrentTime()
+    
+    // 이미 장바구니에 있는 상품이면 수량만 +
 
+    ////////////////////////////////////
+
+    
+    newCart.first_create_dt = util.getCurrentTime() 
     const result = await cartModel.insert(newCart, connection)
     await db.commit(connection)
     res.status(200).json({result: result});
@@ -69,8 +74,14 @@ module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
     console.log("params",params)
-    const result = await cartModel.getList(params)
-    res.status(200).json(result)
+    const cartList = await cartModel.getList(params)
+
+    cartList.map((item, index)=>{
+      
+    })
+
+
+    res.status(200).json(cartList)
   }
   catch (err) {
     next(err)
