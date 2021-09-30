@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {  
+    "category_idx": {
+      "type": "number",
+      "minLength":1
+    }
+
+  },
+  "example": {
+    "category_idx":"1"
+  }
+}

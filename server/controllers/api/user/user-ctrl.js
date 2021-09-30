@@ -67,7 +67,7 @@ module.exports.signIn = async (req, res, next) => {
     delete user.user_pwd;
     delete user.salt;
     user.loginSuccess = true
-
+    // 쿠키에 토큰을 담아서 보내준다
     res.cookie("w_auth", access_token).status(200).json({ result: user});
 
   } catch (err) {
@@ -76,16 +76,30 @@ module.exports.signIn = async (req, res, next) => {
   }
 };
 
+// 상품 배송받을 주소 등록
+module.exports.postAddressBook = async (req, res, next) => {
+  const connection = await db.beginTransaction()
+  try {
+    const addressInfo = {...req.options};
+    const result = await userModel.insertAddress(addressInfo, connection);
+    await db.commit(connection)
+    res.status(200).json({result: result});
+  }catch (err) {
+    await db.rollback(connection)
+    next(err)
+  }finally{
+    await connection.destroy()
+  }
+}
 
+// 유저 정보 수정
 module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const userInfo = req.options
 
-    console.log('userInfo', userInfo);
-
     const result = await userModel.update(userInfo, connection)
-    if(result === 0) throw {status: 404, errorMessage: 'Not found lecture'}
+    if(result === 0) throw {status: 404, errorMessage: 'Not found user'}
     
     await db.commit(connection)
     res.status(200).json({result:true})
@@ -96,17 +110,36 @@ module.exports.update = async (req, res, next) => {
   }
 }
 
+// 상품을 배송받을 주소 수정
+module.exports.updateAddressBook = async (req, res, next) => {
+  const connection = await db.beginTransaction()
+  try{
+    
+    const addressInfo = req.options
 
+    const result = await userModel.updateAddress(addressInfo, connection)
+    if(result === 0) throw {status: 404, errorMessage: 'Not found user'}
+    
+    await db.commit(connection)
+    res.status(200).json({result:true})
+  }
+  catch (err) {
+    await db.rollback(connection)
+    next(err)
+  }
+}
+
+// 유저 삭제
 module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const userInfo =req.options;
     const result = await userModel.delete({user_idx: userInfo.user_idx}, connection)
     await db.commit(connection)
+
     let returnValue = false;
-    if(result.affectedRows === 1){
-      returnValue = true
-    }
+    if(result.affectedRows === 1){ returnValue = true }
+
     res.status(200).json({result:returnValue})
   }
   catch (err) {
@@ -115,9 +148,31 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+// 유저의 주소록을 삭제한다
+module.exports.deleteAddressBook = async (req, res, next) => {
+  const connection = await db.beginTransaction()
+  try{
+    const userInfo =req.options;
+    const result = await userModel.deleteAddressBook({user_idx: userInfo.user_idx}, connection)
+    await db.commit(connection)
+
+    let returnValue = false;
+    if(result.affectedRows === 1){ returnValue = true }
+
+    res.status(200).json({result:returnValue})
+  }
+  catch (err) {
+    await db.rollback(connection)
+    next(err)
+  }
+}
+
+
 // 유저 조회
 module.exports.getList = async (req, res, next) => {
   try {
+    
+    // 조건에 맞는 유저 전체 조회
     const params = req.options
     
     const result = await userModel.getList(params)
@@ -134,10 +189,11 @@ module.exports.authNumberSend = async(req, res, next)=>{
   try{
     
     const userInfo = req.options
+    
+    // 렌덤값 생성
     let firstNum = Math.ceil(Math.random(9)*10)
     if(firstNum>9)
       firstNum -=1
-  
     const min = Math.ceil(100)
     const max = Math.floor(1000)
     const rest = Math.ceil(Math.random() * (max - min) + min)
@@ -164,11 +220,12 @@ module.exports.tokenCheck = async (req, res, next) => {
   try {
     const token = req.cookies
     
-    // 토큰이 없을 경우 실패 메시지
+    // 토큰이 없을 경우 실패 메시지 반환 (false)
     if(!token.w_auth) {return res.json({success:false, message: 'not logged in'})}
     
+   // 토큰이 있을 경우 
     const decoded = await jwt.decodeToken(token.w_auth)
-    // console.log("decoded in auth",decoded)
+
     res.status(200).json(decoded)
   }
   catch (err) {
@@ -184,6 +241,7 @@ module.exports.logout = async (req, res, next) => {
     // 토큰이 없을 경우 실패 메시지
     if(!token){ return res.status(403).json({success:false, message: 'not logged in'})}
 
+    // 쿠키의 담긴 토큰을 지워준다
     return res.cookie("w_auth","").json({logoutSuccess: true})
   }
   catch (err) {
@@ -193,20 +251,18 @@ module.exports.logout = async (req, res, next) => {
 
 // email 중복체크
 module.exports.emailDuplicateCheck = async(req, res, next) => {
-  
   try{
     const newUser = req.options;
     const userEmail = await userModel.findOneById(newUser.user_email);
 
-    // 이미 등록된 이메일이 있을 경우
+    // 이미 등록된 이메일이 있을 경우 false
     if (userEmail) { return res.status(409).json({ success: false, message:'Duplicate Email'}) }
     
+    // 이미 등록된 이메일이 없는 경우 true
     return res.status(200).json({success: true})
-
   }catch(err){
     next(err)
   }
-
 }
 
 

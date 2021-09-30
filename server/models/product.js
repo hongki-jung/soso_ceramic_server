@@ -89,6 +89,22 @@ module.exports.update = async (options, connection) => {
 }
 
 
+
+module.exports.updateProductCategory = async (options, connection) => {
+  try{
+      const {affectedRows} = await db.query({
+          connection: connection,
+          sql: `UPDATE product SET ? WHERE product_idx = ?`,
+          values: [options, options.product_idx]
+        })
+        return affectedRows
+  } catch(err){
+      throw new Error(err)
+  }
+}
+
+
+
 module.exports.delete = async (IDX, connection) => {
     try{
         return await db.query({

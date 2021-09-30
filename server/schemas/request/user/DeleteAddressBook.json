@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {  
+    "user_idx":{
+      "type":"number",
+      "minLength":1
+    }
+  },
+  "example": {
+    "user_idx": 1
+  }
+}

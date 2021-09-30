@@ -13,7 +13,8 @@ module.exports.register = async (req, res, next) => {
   try {
     const newProduct = {...req.options}
     
-    const detailImagePath = req.options.product_detail_images
+    
+    const imagePathArray = req.options.product_detail_images
     delete newProduct.product_detail_images
 
     const newImagePathList = []
@@ -22,13 +23,14 @@ module.exports.register = async (req, res, next) => {
     const result = await productModel.insert(newProduct, connection)
 
     // 상세 이미지 등록
-    if (detailImagePath && detailImagePath.length > 0){
-      for (let i = 0 ; i< detailImagePath.length; i++){
+    if (imagePathArray && imagePathArray.length > 0){
+      for (let i = 0 ; i< imagePathArray.length; i++){
         let temp = []
         temp.push(result)
-        temp.push(detailImagePath[i])
+        temp.push(imagePathArray[i])
         newImagePathList.push(temp)
       }
+      console.log("newImagePathList multi insert",newImagePathList)
       await imagesModel.multipleInsert(newImagePathList, connection)
     }
 
@@ -49,14 +51,31 @@ module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const product_info = req.options
+
+    const imagePathArray = product_info.product_detail_images
+    delete product_info.product_detail_images
+
     // 메인 이미지를 비롯한 상품 정보 수정 
     const result = await productModel.update(product_info, connection)
-    if(result === 0) throw {status: 404, errorMessage: 'Product Not found'}
+    if(result === 0) throw {status: 404, errorMessage: 'Product not found'}
     
-    // 상품 상세이미지 수정이 요청된 경우
-    // 기존의 상세이미지들의 path를 지워주고 새로운 path를 넣어준다
-    if (product_info.product_detail_image && product_info.product_detail_image.length > 0){
+    const newImagePathList = []
 
+    // 상품 상세이미지 수정도 요청된 경우
+    // 기존의 상세이미지들의 path를 모두 지워주고 새로운 path를 넣어준다
+    if (imagePathArray && imagePathArray.length > 0){
+
+      // 기존 상세 이미지 삭제
+      await imagesModel.deleteDetailImages({product_idx: product_info.product_idx});
+
+      // 새로운 상세 이미지 추가
+      for (let i = 0; i < imagePathArray.length; i++) {
+        let temp = [];
+        temp.push(result);
+        temp.push(imagePathArray[i]);
+        newImagePathList.push(temp);
+      }
+      await imagesModel.multipleInsert(newImagePathList, connection);
     }
 
     await db.commit(connection)
@@ -66,7 +85,30 @@ module.exports.update = async (req, res, next) => {
     await db.rollback(connection)
     next(err)
   }
+  finally {
+    await connection.destroy()
+  }
 }
+
+
+// 상품 카테고리 변경
+module.exports.updateProductCategory = async (req, res, next) => {
+  const connection = await db.beginTransaction()
+  try{
+    const changeInfo = req.options
+    
+    const result = await productModel.updateProductCategory(changeInfo, connection)
+    if(result === 0) throw {status: 404, errorMessage: 'Product Not found'}
+    
+    await db.commit(connection)
+    res.status(200).json({result:true})
+  }
+  catch (err) {
+    await db.rollback(connection)
+    next(err)
+  }
+}
+
 
 // 상품 삭제
 module.exports.delete = async (req, res, next) => {
@@ -108,9 +150,12 @@ module.exports.getProductDetailInfo = async (req, res, next) => {
   try {
     const productIdx = req.options
 
+    // 특정 상품의 정보를 불러온다.
     const result = await productModel.findOneByProductIdx(productIdx)
 
+    // 특정 상품의 상세 이미지들을 불러온다.
     const images = await imagesModel.getImagesByProductIdx({product_idx: result.product_idx})
+
     const productDetailImg = images.map((item) => {
       return { 
         file_idx : item.file_idx,
@@ -126,3 +171,13 @@ module.exports.getProductDetailInfo = async (req, res, next) => {
     next(err)
   }
 }
+
+
+
+        // const images = await imagesModel.getImagesByProductIdx({product_idx: product_info.product_idx})
+        // console.log("images??<<<",images)
+        // if(images && images.length >0){
+        //   // 기존의 상세이미지들의 path를 지워준다
+        //   await imagesModel.deleteDetailImages({product_info: product_info.product_idx}, connection)
+          
+        // }

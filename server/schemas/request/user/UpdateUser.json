@@ -1,21 +1,17 @@
 {
   "type": "object",
   "properties": {  
-    "user_email": {
-      "type": "string",
+    "user_idx": {
+      "type": "number",
       "minLength":1
     },
-    "user_pwd": {
-      "type": "string",
-      "minLength":1
-    },
-    "phone_number":{
-      "type":"number",
-      "minLength": 1
+    "user_level":{
+      "type":"string",
+      "enum": ["auth", "unauth", "admin"]
     }
   },
   "example": {
-    "user_idx": "1",
-    "phone_number":"131"
+    "user_level":"auth"
+
   }
 }

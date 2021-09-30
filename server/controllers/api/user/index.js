@@ -35,13 +35,32 @@ module.exports.signIn = new ApiRouter({
   handler: ctrl.signIn,
 });
 
+// 유저 주소록 추가 (상품을 배송받을 주소 등록)
+module.exports.postAddressBook = new ApiRouter({
+  name: "address",
+  method: "post",
+  summary: "유저 주소록 추가 (상품을 배송받을 주소 등록)",
+  schema: "PostAddressBook",
+  tags: ["User"],
+  description: "",
+  isPublic: true,
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'}
+  },
+  handler: ctrl.postAddressBook,
+});
+
+
+
 module.exports.update = new ApiRouter({
   name: ':user_idx',
   method: 'put',
-  summary: 'update User ',
+  summary: '유저 정보 수정',
   schema: 'UpdateUser',
   tags: ['User'],
   description:'',
+  path:["user_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},
@@ -50,12 +69,31 @@ module.exports.update = new ApiRouter({
   handler: ctrl.update
 })
 
+// 유저 주소록 수정 (상품을 배송받을 주소 수정)
+module.exports.updateAddressBook = new ApiRouter({
+  name: 'address/:user_idx',
+  method: 'put',
+  summary: '유저 주소록 수정 (상품을 배송받을 주소 수정)',
+  schema: 'UpdateAddressBook',
+  tags: ['User'],
+  description:'',
+  path:["user_idx"],
+  isPublic: true,
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'}
+  },
+  handler: ctrl.updateAddressBook
+})
+
+
 module.exports.delete = new ApiRouter({
   name: ':user_idx',
   method: 'delete',
-  summary: 'Delete ClassTime',
+  summary: '유저 삭제',
   schema: 'DeleteUser',
   tags: ['User'],
+  path:["user_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},
@@ -63,6 +101,23 @@ module.exports.delete = new ApiRouter({
     409: {description: 'Already removed'}
   },
   handler: ctrl.delete
+})
+
+
+module.exports.deleteAddressBook = new ApiRouter({
+  name: 'address/:user_idx',
+  method: 'delete',
+  summary: '유저 주소록 삭제',
+  schema: 'DeleteAddressBook',
+  tags: ['User'],
+  path:["user_idx"],
+  isPublic: true,
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'},
+    409: {description: 'Already removed'}
+  },
+  handler: ctrl.deleteAddressBook
 })
 
 module.exports.getList = new ApiRouter({

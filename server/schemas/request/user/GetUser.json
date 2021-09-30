@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {  
-    "userIdx": {
+    "user_idx": {
       "type": "number",
       "minLength":0
     },

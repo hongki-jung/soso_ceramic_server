@@ -48,7 +48,6 @@ module.exports.getList = async (options) => { // condition filter
             WHERE 1=1 ${whereClause} 
             ORDER BY user.first_create_dt DESC ${limitClause}
           `
-
       // return await db.query(sql)
       return await db.query({
           sql: sql
@@ -67,7 +66,6 @@ module.exports.insert = async (options, connection) => {
             sql: `INSERT INTO user SET ?`,
             values: [options]
           })
-    
           return insertId
     }
         catch(err){
@@ -76,13 +74,44 @@ module.exports.insert = async (options, connection) => {
 }
 
 
+// 주소록 테이블에 유저 주소록 등록
+module.exports.insertAddress = async (options, connection) => {
+  try{        
+      const {insertId} = await db.query({
+          connection: connection,
+          sql: `INSERT INTO address_book SET ?`,
+          values: [options]
+        })
+  
+        return insertId
+  }
+      catch(err){
+      throw new Error(err)
+  }
+}
+
+
+// 주소록 테이블에 있는 유저 주소록 수정
+module.exports.updateAddress = async (options, connection) => {
+  try{
+      const {affectedRows} = await db.query({
+          connection: connection,
+          sql: `UPDATE address_book SET ? WHERE user_idx = ?`,
+          values: [options, options.user_idx]
+        })
+        return affectedRows
+  } catch(err){
+      throw new Error(err)
+  }
+}
+
 
 module.exports.update = async (options, connection) => {
     try{
         const {affectedRows} = await db.query({
             connection: connection,
-            sql: `UPDATE user SET ? WHERE idx = ?`,
-            values: [options, options.IDX]
+            sql: `UPDATE user SET ? WHERE user_idx = ?`,
+            values: [options, options.user_idx]
           })
           return affectedRows
     } catch(err){
@@ -91,15 +120,27 @@ module.exports.update = async (options, connection) => {
 }
 
 
-module.exports.delete = async (IDX, connection) => {
+module.exports.delete = async (options, connection) => {
     try{
         return await db.query({
             connection,
-            sql: `DELETE FROM user WHERE idx = ?`,
-            values: [IDX]
+            sql: `DELETE FROM user WHERE user_idx = ?`,
+            values: [options.user_idx]
           })
     } catch(err){
         throw new Error(err)
     }
 }
 
+
+module.exports.deleteAddressBook = async (options, connection) => {
+  try{
+      return await db.query({
+          connection,
+          sql: `DELETE FROM address_book WHERE user_idx = ?`,
+          values: [options.user_idx]
+        })
+  } catch(err){
+      throw new Error(err)
+  }
+}

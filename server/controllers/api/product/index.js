@@ -28,12 +28,30 @@ module.exports.update = new ApiRouter({
   tags: ['Product'],
   description:'',
   isPublic: true,
+  path:["product_idx"],
   responses: {
     200: {description: 'Success'},
     400: {description: 'Invalid data'}
   },
   handler: ctrl.update
 })
+
+module.exports.updateProductCategory = new ApiRouter({
+  name: 'product-category/:product_idx',
+  method: 'put',
+  summary: '상품 카테고리 변경',
+  schema: 'UpdateProductCategory',
+  tags: ['Product'],
+  description:'',
+  isPublic: true,
+  path:["product_idx"],
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'}
+  },
+  handler: ctrl.updateProductCategory
+})
+
 
 module.exports.delete = new ApiRouter({
   name: ':product_idx',
