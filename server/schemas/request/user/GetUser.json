@@ -1,34 +1,6 @@
 {
   "type": "object",
   "properties": {  
-    "user_idx": {
-      "type": "number",
-      "minLength":0
-    },
-    "user_email": {
-      "type": "string",
-      "minLength":0
-    },
-    "phone_number": {
-      "type": "string",
-      "minLength":0
-    },
-    "user_name": {
-      "type": "string",
-      "minLength":0
-    },
-    "user_level":{
-      "type":"string",
-      "enum": ["auth", "unauth", "admin"],
-      "description":"auth: 인증, unauth: 미인증, admin: 관리자"
-    },
-    "page":{
-      "type":"number",
-      "minLength":0
-    },
-    "limit":{
-      "type":"number",
-      "minLength":0
-    }
+
   }
 }

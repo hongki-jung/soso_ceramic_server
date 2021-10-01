@@ -76,3 +76,14 @@ module.exports.delete = async (options, connection) => {
     }
 }
 
+
+module.exports.getListTotal = async(options) =>{
+  try{
+    const result = await db.query({
+      sql: `SELECT COUNT(*) as total FROM notice`
+    })
+    return result[0].total
+  }catch(err){
+    throw new Error(err);
+  }
+}

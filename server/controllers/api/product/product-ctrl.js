@@ -129,15 +129,34 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
-// 조건 별 상품 정보 조회
+
+
+// 조건 별 상품 조회 
+module.exports.getListPagination = async (req, res, next) => {
+  try {
+    const params = req.options
+    const result = await productModel.getList(params)
+    const total = await productModel.getListTotal(params)
+
+    const query = req.query
+    const pagenation = util.makePageData(total, req.options.page, req.options.block, req.options.limit)
+
+    console.log("query ?",query)
+    console.log("pagenation ?",pagenation)
+    res.status(200).json({result, query, pagenation})
+  }
+  catch (err) {
+    next(err)
+  }
+}
+
+
+// 상품 전체 조회
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
     const result = await productModel.getList(params)
-    // const total = await productModel.getListTotal(params)
 
-    // const query = req.query
-    // const pagenation = util.makePageData(total.length, req.options.page, req.options.srch_cnt)
     res.status(200).json(result)
   }
   catch (err) {
@@ -145,10 +164,11 @@ module.exports.getList = async (req, res, next) => {
   }
 }
 
+
 // 상품 상세정보
 module.exports.getProductDetailInfo = async (req, res, next) => {
   try {
-    const productIdx = req.options
+    const productIdx = req.options.product_idx
 
     // 특정 상품의 정보를 불러온다.
     const result = await productModel.findOneByProductIdx(productIdx)

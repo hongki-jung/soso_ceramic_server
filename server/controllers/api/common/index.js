@@ -7,7 +7,7 @@ const ctrl = require('./common-ctrl')
 module.exports.getImageUrl = new ApiRouter({
   name: 'image/url',
   method: 'get',
-  summary: 'Get a s3 pre-signed url',
+  summary: 's3 pre-signed url을 불러올 때 사용합니다',
   schema: 'GetImagePreSignedUrl',
   tags: ['Common'],
   isPublic:'true',

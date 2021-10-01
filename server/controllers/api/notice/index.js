@@ -54,7 +54,7 @@ module.exports.delete = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: '공지사항 조회',
+  summary: '공지사항 조회 및 페이징',
   schema: 'GetNotice',
   description: '',
   tags: ['Notice'],

@@ -123,7 +123,7 @@ module.exports.deleteAddressBook = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: '유저 조회',
+  summary: '유저 전체 조회',
   schema: 'GetUser',
   description: '',
   tags: ['User'],
@@ -135,6 +135,21 @@ module.exports.getList = new ApiRouter({
   handler: ctrl.getList
 })
 
+
+module.exports.getListPagination = new ApiRouter({
+  name: 'pagination',
+  method: 'get',
+  summary: '조건 별 유저 조회 및 페이징',
+  schema: 'GetUserPagination',
+  description: '',
+  tags: ['User'],
+  isPublic: true,
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'}
+  },
+  handler: ctrl.getListPagination
+})
 
 module.exports.tokenCheck = new ApiRouter({
   name:'tokenCheck',

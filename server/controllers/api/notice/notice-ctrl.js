@@ -9,7 +9,7 @@ module.exports.register = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try {
     const newNotice = req.options
-    console.log('newNotice ',newNotice);
+
     
     const result = await noticeModel.insert(newNotice, connection)
     await db.commit(connection)
@@ -69,7 +69,12 @@ module.exports.getList = async (req, res, next) => {
     const params = req.options
 
     const result = await noticeModel.getList(params)
-    res.status(200).json(result)
+    const total = await noticeModel.getListTotal(params)
+    const query = req.query
+
+    const pagenation = util.makePageData(total, req.options.page, req.options.block, req.options.limit)
+
+    res.status(200).json({result, query, pagenation})
   }
   catch (err) {
     next(err)

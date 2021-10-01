@@ -59,6 +59,19 @@ module.exports.getList = async (options) => { // condition filter
 
 
 
+module.exports.getListTotal = async(options) =>{
+  try{
+    const result = await db.query({
+      sql: `SELECT COUNT(*) as total FROM user`
+    })
+    return result[0].total
+  }catch(err){
+    throw new Error(err);
+  }
+}
+
+
+
 module.exports.insert = async (options, connection) => {
     try{        
         const {insertId} = await db.query({
@@ -144,3 +157,5 @@ module.exports.deleteAddressBook = async (options, connection) => {
       throw new Error(err)
   }
 }
+
+

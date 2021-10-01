@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {  
+    "product_idx": {
+      "type": "number",
+      "minLength":0
+    },
+    "product_name": {
+      "type": "string",
+      "minLength":0
+    },
+    "product_description": {
+      "type": "string",
+      "minLength":0
+    },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+    "sold": {
+      "type": "number",
+      "minLength":0
+    },
+    "category_idx":{
+      "type":"number",
+      "min_Length":0
+    },
+    "page":{
+      "type":"number",
+      "minLength":0
+    },
+    "limit":{
+      "type":"number",
+      "minLength":0
+    },
+    "block":{
+      "type":"number",
+      "minLength":0
+    }
+  }
+}

@@ -24,7 +24,7 @@ module.exports.getList = async (options) => { // condition filter
         
         let sql = `
           SELECT 
-            orders.*, user.user_id, user.user_email, user.phone_number, user.user_name
+            orders.*, user.user_email, user.phone_number, user.user_name
           FROM orders 
             INNER JOIN
               user ON user.user_idx = orders.user_idx

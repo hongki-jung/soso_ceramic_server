@@ -49,7 +49,7 @@ module.exports.findOneByProductIdx = async(options) =>{
     `
     const result = await db.query({
       sql,
-      values: [options.product_idx]
+      values: [options]
     })
     return result[0]
   }catch(err){
@@ -117,3 +117,14 @@ module.exports.delete = async (IDX, connection) => {
     }
 }
 
+
+module.exports.getListTotal = async(options) =>{
+  try{
+    const result = await db.query({
+      sql: `SELECT COUNT(*) as total FROM product`
+    })
+    return result[0].total
+  }catch(err){
+    throw new Error(err);
+  }
+}

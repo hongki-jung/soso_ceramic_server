@@ -12,6 +12,10 @@
     "limit":{
       "type":"number",
       "minLength":0
+    },
+    "block":{
+      "type":"number",
+      "minLength":0
     }
 
   },

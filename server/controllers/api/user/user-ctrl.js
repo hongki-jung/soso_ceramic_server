@@ -168,13 +168,10 @@ module.exports.deleteAddressBook = async (req, res, next) => {
 }
 
 
-// 유저 조회
+// 유저 전체 조회
 module.exports.getList = async (req, res, next) => {
   try {
-    
-    // 조건에 맞는 유저 전체 조회
     const params = req.options
-    
     const result = await userModel.getList(params)
     res.status(200).json(result)
   }
@@ -182,6 +179,26 @@ module.exports.getList = async (req, res, next) => {
     next(err)
   }
 }
+
+// 조건에 맞는 유저 조회 및 페이징
+module.exports.getListPagination = async (req, res, next) =>{
+  try{
+    const params = req.options
+    
+    const result = await userModel.getList(params)
+    const total = await userModel.getListTotal(params)
+    const query = req.query
+
+    const pagenation = util.makePageData(total, req.options.page, req.options.block, req.options.limit)
+
+    res.status(200).json({result, query, pagenation})
+  }catch(err){
+    next(err)
+  }
+}
+
+
+
 
 // 유저 이메일로 인증번호를 보낸다.
 module.exports.authNumberSend = async(req, res, next)=>{
@@ -219,13 +236,13 @@ module.exports.authNumberSend = async(req, res, next)=>{
 module.exports.tokenCheck = async (req, res, next) => {
   try {
     const token = req.cookies
-    
+    console.log("??? tocken",token)
     // 토큰이 없을 경우 실패 메시지 반환 (false)
     if(!token.w_auth) {return res.json({success:false, message: 'not logged in'})}
     
    // 토큰이 있을 경우 
     const decoded = await jwt.decodeToken(token.w_auth)
-
+    console.log(" ????decoded ",decoded)
     res.status(200).json(decoded)
   }
   catch (err) {

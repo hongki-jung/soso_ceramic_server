@@ -18,7 +18,7 @@ module.exports.register = new ApiRouter({
     409: {description: 'already implemented'}
   },
   handler: ctrl.register
-})
+}) 
 
 module.exports.update = new ApiRouter({
   name: ':category_idx',
@@ -26,6 +26,7 @@ module.exports.update = new ApiRouter({
   summary: '상품 카테고리 수정',
   schema: 'UpdateCategory',
   tags: ['Category'],
+  path:["category_idx"],
   description:'',
   isPublic: true,
   responses: {
@@ -41,6 +42,7 @@ module.exports.delete = new ApiRouter({
   summary: '상품 카테고리 삭제',
   schema: 'DeleteCategory',
   tags: ['Category'],
+  path:["category_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

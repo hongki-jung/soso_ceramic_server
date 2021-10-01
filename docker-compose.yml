@@ -39,7 +39,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - nginx-proxy
-
+ 
 networks:
   nginx-proxy:
     name: nginx-proxy

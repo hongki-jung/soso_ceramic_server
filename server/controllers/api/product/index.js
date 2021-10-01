@@ -71,7 +71,7 @@ module.exports.delete = new ApiRouter({
 module.exports.getList = new ApiRouter({
   name: '',
   method: 'get',
-  summary: '조건 별 상품 전체 조회 (조건에 맞는 상품을 불러올 때 사용합니다.)',
+  summary: '상품 목록 전체 조회',
   schema: 'GetProduct',
   description: '',
   tags: ['Product'],
@@ -81,6 +81,22 @@ module.exports.getList = new ApiRouter({
     400: {description: 'Invalid data'}
   },
   handler: ctrl.getList
+})
+
+module.exports.getListPagination = new ApiRouter({
+  name: 'pagination',
+  method: 'get',
+  summary: '조건 별 상품 조회 및 페이징 ( 조건에 맞는 상품을 불러올 때 사용합니다.)',
+  schema: 'GetProductPagination',
+  description: '',
+  tags: ['Product'],
+  isPublic: true,
+  responses: {
+    200: {description: 'Success'},
+    400: {description: 'Invalid data'}
+  },
+  handler: ctrl.getListPagination
+
 })
 
 
