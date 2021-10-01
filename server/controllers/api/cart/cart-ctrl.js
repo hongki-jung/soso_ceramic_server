@@ -12,8 +12,7 @@ module.exports.register = async (req, res, next) => {
     const newCart = req.options
     console.log('newCart ',newCart);
     
-    // 이미 장바구니에 있는 상품이면 수량만 +
-
+    // 이미 장바구니에 있는 상품이면 수량만 증가시키는 작업
     ////////////////////////////////////
 
     
@@ -73,13 +72,8 @@ module.exports.delete = async (req, res, next) => {
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-    console.log("params",params)
+
     const cartList = await cartModel.getList(params)
-
-    cartList.map((item, index)=>{
-      
-    })
-
 
     res.status(200).json(cartList)
   }

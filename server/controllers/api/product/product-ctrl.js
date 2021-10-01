@@ -6,6 +6,8 @@ const util = require('../../../components/util')
 const productModel = require('../../../models/product')
 const imagesModel = require('../../../models/images')
 
+const Redis = require("redis")
+const redisCache = require('../../../components/redisCache')
 
 // 상품 등록
 module.exports.register = async (req, res, next) => {
@@ -13,7 +15,10 @@ module.exports.register = async (req, res, next) => {
   try {
     const newProduct = {...req.options}
     
-    
+    // 상품 추가 시 전체 상품 조회 캐시 삭제 
+    const redisClient = Redis.createClient()
+    redisClient.del('products')
+
     const imagePathArray = req.options.product_detail_images
     delete newProduct.product_detail_images
 
@@ -51,9 +56,12 @@ module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const product_info = req.options
-
     const imagePathArray = product_info.product_detail_images
     delete product_info.product_detail_images
+
+    // 특정 상품 캐시 삭제 
+    const redisClient = Redis.createClient()
+    redisClient.del(`products?productIdx=${product_info.product_idx}`)
 
     // 메인 이미지를 비롯한 상품 정보 수정 
     const result = await productModel.update(product_info, connection)
@@ -96,7 +104,11 @@ module.exports.updateProductCategory = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const changeInfo = req.options
-    
+
+    // 특정 상품 캐시 삭제 
+    const redisClient = Redis.createClient()
+    redisClient.del(`products?productIdx=${changeInfo.product_idx}`)
+
     const result = await productModel.updateProductCategory(changeInfo, connection)
     if(result === 0) throw {status: 404, errorMessage: 'Product Not found'}
     
@@ -115,6 +127,11 @@ module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
     const product_info = req.options;
+
+    // 특정 상품 캐시 삭제 
+    const redisClient = Redis.createClient()
+    redisClient.del(`products?productIdx=${product_info.product_idx}`)
+
     const result = await productModel.delete({product_info: product_info.product_idx}, connection)
     await db.commit(connection)
     let returnValue = false;
@@ -141,8 +158,6 @@ module.exports.getListPagination = async (req, res, next) => {
     const query = req.query
     const pagenation = util.makePageData(total, req.options.page, req.options.block, req.options.limit)
 
-    console.log("query ?",query)
-    console.log("pagenation ?",pagenation)
     res.status(200).json({result, query, pagenation})
   }
   catch (err) {
@@ -155,11 +170,24 @@ module.exports.getListPagination = async (req, res, next) => {
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-    const result = await productModel.getList(params)
+    const redisClient = Redis.createClient()
+    const DEFAULT_EXPIRATION = 36000
 
-    res.status(200).json(result)
-  }
-  catch (err) {
+    redisClient.get("products", async (error, productInfo)=>{
+      if (error) console.error(error)
+    
+      if (productInfo != null){
+        // Cache Hit 
+        return res.status(200).json(JSON.parse(productInfo))
+      }else{
+        // Cache Miss
+        const products = await productModel.getList(params)
+        redisClient.setex("products", DEFAULT_EXPIRATION, JSON.stringify(products))
+        res.status(200).json(products)
+      }
+    })
+
+  }catch (err) {
     next(err)
   }
 }
@@ -170,22 +198,29 @@ module.exports.getProductDetailInfo = async (req, res, next) => {
   try {
     const productIdx = req.options.product_idx
 
-    // 특정 상품의 정보를 불러온다.
-    const result = await productModel.findOneByProductIdx(productIdx)
+    const product = await redisCache.getOrSetCache(`products?productIdx=${productIdx}`,async()=>{
 
-    // 특정 상품의 상세 이미지들을 불러온다.
-    const images = await imagesModel.getImagesByProductIdx({product_idx: result.product_idx})
+          // 특정 상품의 정보를 불러온다.
+          const result = await productModel.findOneByProductIdx(productIdx)
+          if (!result) return {status: 400, errorMessage:"Product not found"}
 
-    const productDetailImg = images.map((item) => {
-      return { 
-        file_idx : item.file_idx,
-        product_idx: item.product_idx,
-        path: item.path
-      }
+          // 특정 상품의 상세 이미지들을 불러온다.
+          const images = await imagesModel.getImagesByProductIdx({product_idx: result.product_idx})
+          const productDetailImg = images.map((item) => {
+              return {
+                file_idx: item.file_idx,
+                product_idx: item.product_idx,
+                path: item.path,
+              };
+            })
+            
+          result.productDetailImg = [...productDetailImg]
+  
+          return result
     })
-    result.productDetailImg = [...productDetailImg]
 
-    res.status(200).json(result)
+    res.status(200).json(product)
+
   }
   catch (err) {
     next(err)

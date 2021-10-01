@@ -7,8 +7,8 @@ const util = require('../../../components/util')
 const nodemailer = require('../../../components/email')
 
 const jwt = require('../../../libs/jwt/index')
-
 const userModel = require('../../../models/user')
+
 
 // 회원가입
 module.exports.signUp = async (req, res, next) => {
@@ -51,9 +51,9 @@ module.exports.signIn = async (req, res, next) => {
   try {
 
     const userInfo = req.options;
-    const user = await userModel.findOneById(userInfo.user_email);
 
-    // 유저 계정 존재 유무확인
+     // 유저 계정 존재 유무확인
+    const user = await userModel.findOneById(userInfo.user_email);
     if (!user) throw { status: 400, errorMessage: "User not found" }
  
     // 유저 패스워드 체크
@@ -184,7 +184,7 @@ module.exports.getList = async (req, res, next) => {
 module.exports.getListPagination = async (req, res, next) =>{
   try{
     const params = req.options
-    
+
     const result = await userModel.getList(params)
     const total = await userModel.getListTotal(params)
     const query = req.query
@@ -236,13 +236,13 @@ module.exports.authNumberSend = async(req, res, next)=>{
 module.exports.tokenCheck = async (req, res, next) => {
   try {
     const token = req.cookies
-    console.log("??? tocken",token)
+   
     // 토큰이 없을 경우 실패 메시지 반환 (false)
     if(!token.w_auth) {return res.json({success:false, message: 'not logged in'})}
     
-   // 토큰이 있을 경우 
+   // 토큰이 있을 경우 verify
     const decoded = await jwt.decodeToken(token.w_auth)
-    console.log(" ????decoded ",decoded)
+    
     res.status(200).json(decoded)
   }
   catch (err) {

@@ -15,6 +15,7 @@ module.exports.register = new ApiRouter({
   responses: {
     200: {description: 'success'},
     400: {description: 'Invalid data'},
+    404: {description: 'Order product not found'},
     409: {description: 'already implemented'}
   },
   handler: ctrl.register
@@ -26,11 +27,13 @@ module.exports.update = new ApiRouter({
   summary: '주문 상태 변경',
   schema: 'UpdateOrder',
   tags: ['Order'],
+  path:["order_idx"],
   description:'',
   isPublic: true,
   responses: {
     200: {description: 'Success'},
-    400: {description: 'Invalid data'}
+    400: {description: 'Invalid data'},
+    404: {description: 'Order not found'}
   },
   handler: ctrl.update
 })
@@ -41,6 +44,7 @@ module.exports.delete = new ApiRouter({
   summary: '주문 취소',
   schema: 'DeleteOrder',
   tags: ['Order'],
+  path:["order_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

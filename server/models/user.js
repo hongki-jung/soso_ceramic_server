@@ -23,7 +23,7 @@ module.exports.getList = async (options) => { // condition filter
     try{
       const {user_idx, user_email, phone_number, user_name, user_level, limit} = options
       let page = options.page;
-      console.log("page :",page)
+      // console.log("page :",page)
 
       if(!page || page<0){
         page=1;

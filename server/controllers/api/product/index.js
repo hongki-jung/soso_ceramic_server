@@ -39,7 +39,7 @@ module.exports.update = new ApiRouter({
 module.exports.updateProductCategory = new ApiRouter({
   name: 'product-category/:product_idx',
   method: 'put',
-  summary: '상품 카테고리 변경',
+  summary: '특정 상품의 카테고리를 변경한다',
   schema: 'UpdateProductCategory',
   tags: ['Product'],
   description:'',

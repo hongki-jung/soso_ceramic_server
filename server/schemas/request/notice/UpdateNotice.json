@@ -1,13 +1,17 @@
 {  
   "type": "object",
-  "properties": {  
+  "properties": {
+    "notice_idx":{
+      "type": "number",
+      "minLength":1
+    },
     "title": {
       "type": "string",
-      "minLength":1 
+      "minLength":0 
     },    
     "content": {
       "type": "string",
-      "minLength":1    
+      "minLength":0  
     }
   },
   "example": {

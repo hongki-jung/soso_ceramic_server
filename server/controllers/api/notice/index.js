@@ -25,12 +25,15 @@ module.exports.update = new ApiRouter({
   method: 'put',
   summary: '공지사항 수정 ',
   schema: 'UpdateNotice',
+  path:["notice_idx"],
   tags: ['Notice'],
   description:'',
   isPublic: true,
   responses: {
     200: {description: 'Success'},
-    400: {description: 'Invalid data'}
+    
+    400: {description: 'Invalid data'},
+    404: {description: 'Notice not found'}
   },
   handler: ctrl.update
 })
