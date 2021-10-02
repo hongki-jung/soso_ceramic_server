@@ -5,9 +5,14 @@ const db = require('../../../components/db')
 const util = require('../../../components/util')
 const productModel = require('../../../models/product')
 const imagesModel = require('../../../models/images')
-
+const config = require('../../../config/index')
 const Redis = require("redis")
 const redisCache = require('../../../components/redisCache')
+
+const redisClient = Redis.createClient({
+  host:config.redis.socket.host,
+  port:config.redis.socket.port
+})
 
 // 상품 등록
 module.exports.register = async (req, res, next) => {
@@ -16,7 +21,7 @@ module.exports.register = async (req, res, next) => {
     const newProduct = {...req.options}
     
     // 상품 추가 시 전체 상품 조회 캐시 삭제 
-    const redisClient = Redis.createClient()
+ 
     redisClient.del('products')
 
     const imagePathArray = req.options.product_detail_images
@@ -60,7 +65,7 @@ module.exports.update = async (req, res, next) => {
     delete product_info.product_detail_images
 
     // 특정 상품 캐시 삭제 
-    const redisClient = Redis.createClient()
+    
     redisClient.del(`products?productIdx=${product_info.product_idx}`)
 
     // 메인 이미지를 비롯한 상품 정보 수정 
@@ -106,7 +111,7 @@ module.exports.updateProductCategory = async (req, res, next) => {
     const changeInfo = req.options
 
     // 특정 상품 캐시 삭제 
-    const redisClient = Redis.createClient()
+  
     redisClient.del(`products?productIdx=${changeInfo.product_idx}`)
 
     const result = await productModel.updateProductCategory(changeInfo, connection)
@@ -129,7 +134,7 @@ module.exports.delete = async (req, res, next) => {
     const product_info = req.options;
 
     // 특정 상품 캐시 삭제 
-    const redisClient = Redis.createClient()
+
     redisClient.del(`products?productIdx=${product_info.product_idx}`)
 
     const result = await productModel.delete({product_info: product_info.product_idx}, connection)
@@ -170,7 +175,7 @@ module.exports.getListPagination = async (req, res, next) => {
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
-    const redisClient = Redis.createClient()
+ 
     const DEFAULT_EXPIRATION = 36000
 
     redisClient.get("products", async (error, productInfo)=>{

@@ -5,7 +5,7 @@ AWS_PROFILE=soso-ceramic-studio
 
 DOCKER_MACHINE=myDockerMachine
 IMAGE_NAME=soso-ceramic-studio
-REGISTRY_URL=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio
+REGISTRY_URL=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio:latest
 
 
 # cd client

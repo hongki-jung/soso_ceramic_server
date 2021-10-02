@@ -11,7 +11,13 @@ services:
       - NODE_ENV=production
     networks:
       - nginx-proxy
-   
+      
+  redis:
+    image: redis:4
+    restart: always
+    networks:
+      - nginx-proxy 
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:

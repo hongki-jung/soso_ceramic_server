@@ -1,11 +1,15 @@
 
 
 const Redis = require("redis")
-
+const config = require('../config/index')
+const redisClient = Redis.createClient({
+  host:config.redis.socket.host,
+  port:config.redis.socket.port
+})
 
 module.exports.getOrSetCache = async (key, cb) => {
 
-    const redisClient = Redis.createClient()
+    
     const DEFALT_EXPIRATION = 360000
 
     return new Promise((resolve, reject) =>{
