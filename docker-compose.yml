@@ -1,12 +1,12 @@
 version: '3.6'
 services:
   server:
-    image: 398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/my_test_registry:latest
+    image: 398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio:latest
     restart: always
     environment:
-      - VIRTUAL_HOST=api.tutorialhappylife.com
+      - VIRTUAL_HOST=api.soso-ceramic-studio.com
       - VIRTUAL_PORT=4000
-      - LETSENCRYPT_HOST=api.tutorialhappylife.com
+      - LETSENCRYPT_HOST=api.soso-ceramic-studio.com
       - LETSENCRYPT_EMAIL=82.hongki.jung@gmail.com
       - NODE_ENV=production
     networks:

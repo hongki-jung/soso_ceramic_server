@@ -71,7 +71,7 @@ module.exports.getList = async (req, res, next) => {
     const result = await noticeModel.getList(params)
     const total = await noticeModel.getListTotal(params)
     const query = req.query
-
+    // 페이징
     const pagenation = util.makePageData(total, req.options.page, req.options.block, req.options.limit)
 
     res.status(200).json({result, query, pagenation})

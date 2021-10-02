@@ -2,12 +2,28 @@
   "type": "object",
   "properties": {
     "mimetype": {
-      "type": "string"
+      "type": "string",
+      "example":"image/png"
+    },
+    "id":{
+      "type":"string",
+      "example":"3"
     },
     "type": {
       "type": "string",
-      "enum": ["user_profile", "product"]
+      "enum": ["product","profile"],
+      "example":"product"
+    },
+    "extension":{
+      "type":"string",
+      "example":"png"
     }
   },
-  "required": ["mimetype", "type"]
+  "required": ["mimetype", "type","id"],
+  "example": {
+    "mimetype":"image/png",
+    "id":3,
+    "extension":"png",
+    "type":"product"
+  }
 }

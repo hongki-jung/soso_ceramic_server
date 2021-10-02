@@ -6,7 +6,7 @@ const orderDetailModel = require('../../../models/orderDetail')
 const db = require('../../../components/db')
 const util = require('../../../components/util')
 
-
+// 주문 등록
 module.exports.register = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try {
@@ -16,11 +16,12 @@ module.exports.register = async (req, res, next) => {
 
     delete newOrder.order_detail_list
 
-    
+    // 주문시간    
     newOrder.order_dt = util.getCurrentTime();
 
     const result = await orderModel.insert(newOrder, connection)
     
+    // 주문 상세 테이블에 상품정보 추가
     if (productInfo && productInfo.length > 0){
       for (let i = 0 ; i< productInfo.length; i++){
         let temp = []

@@ -23,7 +23,7 @@ module.exports.register = async (req, res, next) => {
   }
 }
 
-// 카테고리 수정
+// 상품 카테고리 수정
 module.exports.update = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
@@ -43,7 +43,7 @@ module.exports.update = async (req, res, next) => {
   }
 }
 
-// 카테고리 삭제
+// 상품 카테고리 삭제
 module.exports.delete = async (req, res, next) => {
   const connection = await db.beginTransaction()
   try{
@@ -63,6 +63,7 @@ module.exports.delete = async (req, res, next) => {
   }
 }
 
+// 상품 카테고리 조회
 module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options

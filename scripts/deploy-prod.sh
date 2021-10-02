@@ -1,14 +1,12 @@
 #!/bin/bash
-AWS_PROFILE=tutorial-sample
-
-# DOCKER_MACHINE=kidscare-machine
-# IMAGE_NAME=kidscare
-# REGISTRY_URL=506876573492.dkr.ecr.ap-northeast-2.amazonaws.com/kidscare:latest
+AWS_PROFILE=soso-ceramic-studio
 
 
-DOCKER_MACHINE=sampleMachine
-IMAGE_NAME=my_test_registry
-REGISTRY_URL=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/my_test_registry
+
+DOCKER_MACHINE=myDockerMachine
+IMAGE_NAME=soso-ceramic-studio
+REGISTRY_URL=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio
+
 
 # cd client
 # npm run build
