@@ -21,7 +21,6 @@ module.exports.register = async (req, res, next) => {
     const newProduct = {...req.options}
     
     // 상품 추가 시 전체 상품 조회 캐시 삭제 
- 
     redisClient.del('products')
 
     const imagePathArray = req.options.product_detail_images
@@ -64,8 +63,8 @@ module.exports.update = async (req, res, next) => {
     const imagePathArray = product_info.product_detail_images
     delete product_info.product_detail_images
 
-    // 특정 상품 캐시 삭제 
-    
+    // 상품 캐시 삭제 
+    redisClient.del('products')
     redisClient.del(`products?productIdx=${product_info.product_idx}`)
 
     // 메인 이미지를 비롯한 상품 정보 수정 
@@ -84,7 +83,7 @@ module.exports.update = async (req, res, next) => {
       // 새로운 상세 이미지 추가
       for (let i = 0; i < imagePathArray.length; i++) {
         let temp = [];
-        temp.push(result);
+        temp.push(product_info.product_idx);
         temp.push(imagePathArray[i]);
         newImagePathList.push(temp);
       }
@@ -111,7 +110,7 @@ module.exports.updateProductCategory = async (req, res, next) => {
     const changeInfo = req.options
 
     // 특정 상품 캐시 삭제 
-  
+    redisClient.del('products')
     redisClient.del(`products?productIdx=${changeInfo.product_idx}`)
 
     const result = await productModel.updateProductCategory(changeInfo, connection)
@@ -133,11 +132,11 @@ module.exports.delete = async (req, res, next) => {
   try{
     const product_info = req.options;
 
-    // 특정 상품 캐시 삭제 
-
+    // 상품 캐시 삭제 
+    redisClient.del('products')
     redisClient.del(`products?productIdx=${product_info.product_idx}`)
 
-    const result = await productModel.delete({product_info: product_info.product_idx}, connection)
+    const result = await productModel.delete({product_idx: product_info.product_idx}, connection)
     await db.commit(connection)
     let returnValue = false;
     if(result.affectedRows === 1){
@@ -176,7 +175,7 @@ module.exports.getList = async (req, res, next) => {
   try {
     const params = req.options
  
-    const DEFAULT_EXPIRATION = 36000
+    const DEFAULT_EXPIRATION = 1800
 
     redisClient.get("products", async (error, productInfo)=>{
       if (error) console.error(error)

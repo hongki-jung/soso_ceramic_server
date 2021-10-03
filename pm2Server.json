@@ -1,0 +1,21 @@
+
+  {
+    "apps": [
+      {
+        "name": "server",
+        "script": "./server/bin/www",
+        "instances": "max",
+        "watch":true,
+        "merge_logs":true,
+        "max_memory_restart": "500M",
+        "exec_mode": "cluster",
+        "listen_timeout": 50000,
+        "kill_timeout": 5000
+      }
+    ],
+    "deploy" : {
+      "development" : {
+        "post-deploy" : "pm2 startOrRestart pm2Server.json --env production"
+      }
+    }
+  }

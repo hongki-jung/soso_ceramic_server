@@ -5,7 +5,9 @@ AWS_PROFILE=soso-ceramic-studio
 
 DOCKER_MACHINE=myDockerMachine
 IMAGE_NAME=soso-ceramic-studio
+
 REGISTRY_URL=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio:latest
+REGISTRY_URL_CLIENT=398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio-client:latest
 
 
 # cd client
@@ -26,6 +28,8 @@ docker push ${REGISTRY_URL}
 
 eval $(docker-machine env --shell bash ${DOCKER_MACHINE})
 docker pull ${REGISTRY_URL}
+docker pull ${REGISTRY_URL_CLIENT}
+
 
 docker-machine scp -d ./nginx/nginx.tmpl ${DOCKER_MACHINE}:/home/ubuntu
 docker-machine scp -d ./docker-compose.yml ${DOCKER_MACHINE}:/home/ubuntu

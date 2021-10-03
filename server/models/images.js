@@ -14,7 +14,7 @@ module.exports.multipleInsert = async (options, connection) =>{
       values: [options]
       
     })
-    console.log("resulteraneslrknesr---1",result)
+  
     return result;
   }catch(err){
     throw new Error(err)

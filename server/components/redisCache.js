@@ -10,7 +10,7 @@ const redisClient = Redis.createClient({
 module.exports.getOrSetCache = async (key, cb) => {
 
     
-    const DEFALT_EXPIRATION = 360000
+    const DEFALT_EXPIRATION = 1800
 
     return new Promise((resolve, reject) =>{
       redisClient.get(key, async (error, data) =>{

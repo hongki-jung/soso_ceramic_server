@@ -105,12 +105,12 @@ module.exports.updateProductCategory = async (options, connection) => {
 
 
 
-module.exports.delete = async (IDX, connection) => {
+module.exports.delete = async (options, connection) => {
     try{
         return await db.query({
             connection,
             sql: `DELETE FROM product WHERE product_idx = ?`,
-            values: [IDX]
+            values: [options.product_idx]
           })
     } catch(err){
         throw new Error(err)

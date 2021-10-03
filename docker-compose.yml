@@ -11,7 +11,22 @@ services:
       - NODE_ENV=production
     networks:
       - nginx-proxy
+
+  client:
+    image: 398347689659.dkr.ecr.ap-northeast-2.amazonaws.com/soso-ceramic-studio-client:latest
+    restart: always
+    environment:
+      - VIRTUAL_HOST=www.soso-ceramic-studio.com
+      - VIRTUAL_PORT=3000
+      - LETSENCRYPT_HOST=www.soso-ceramic-studio.com
+      - LETSENCRYPT_EMAIL=82.hongki.jung@gmail.com
+      - NODE_ENV=production
+    stdin_open: true
+    networks:
+      - nginx-proxy
       
+  
+
   redis:
     image: redis:4
     restart: always

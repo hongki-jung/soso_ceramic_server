@@ -59,6 +59,7 @@ module.exports.delete = new ApiRouter({
   summary: '상품 삭제',
   schema: 'DeleteProduct',
   tags: ['Product'],
+  path:["product_idx"],
   isPublic: true,
   responses: {
     200: {description: 'Success'},

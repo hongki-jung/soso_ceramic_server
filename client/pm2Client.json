@@ -1,0 +1,21 @@
+{
+    "apps": [
+      {
+        "name": "client",
+        "script": "npx",
+        "instances": "max",
+        "watch":false,
+        "merge_logs":true,
+        "max_memory_restart": "500M",
+        "exec_mode": "cluster",
+        "listen_timeout": 50000,
+        "kill_timeout": 5000,
+        "ignore_watch" : [ "./log","./public/**","./public/upload", "./node_modules","./.git", "./sessions","./sessions/*", "./private/files/**/*", "./private/imgs/**/*" ]
+      }
+    ],
+    "deploy" : {
+      "development" : {
+        "post-deploy" : "pm2 startOrRestart pm2Client.json"
+      }
+    }
+  }

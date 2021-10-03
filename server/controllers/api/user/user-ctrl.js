@@ -66,9 +66,9 @@ module.exports.signIn = async (req, res, next) => {
 
     delete user.user_pwd;
     delete user.salt;
-    user.loginSuccess = true
+    user.access_token = access_token
     // 쿠키에 토큰을 담아서 보내준다
-    res.cookie("w_auth", access_token).status(200).json({ result: user});
+    res.status(200).json({ result: user});
 
   } catch (err) {
     await db.rollback(connection);
@@ -235,13 +235,14 @@ module.exports.authNumberSend = async(req, res, next)=>{
 // 토큰 체크
 module.exports.tokenCheck = async (req, res, next) => {
   try {
-    const token = req.cookies
-   
+    const token = req.options.token
+    console.log("req.token",req.options) // req.options => req.token { token: 'null' }
+
     // 토큰이 없을 경우 실패 메시지 반환 (false)
-    if(!token.w_auth) {return res.json({success:false, message: 'not logged in'})}
+    if(!token) {return res.status(300).json({success:false, message: 'not logged in'})}
     
    // 토큰이 있을 경우 verify
-    const decoded = await jwt.decodeToken(token.w_auth)
+    const decoded = await jwt.decodeToken(token)
     
     res.status(200).json(decoded)
   }
