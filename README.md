@@ -1,4 +1,4 @@
 soso_ceramic_server
 
 
-<img width="998" alt="ScreenShot1" src="https://user-images.githubusercontent.com/52274128/135753435-a49cfc5b-3995-41c8-a2f3-fb2b03352fae.png">
+![Screen Shot 2021-10-04 at 2 13 30 PM](https://user-images.githubusercontent.com/52274128/135797660-c374deb0-eec5-415c-9edc-adb27e832365.png)
